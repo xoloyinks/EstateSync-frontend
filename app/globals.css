@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+
+
+body{
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+.custom-bullet-active{
+    background-color: white  !important;
+    width: 25px !important;
+    border-radius: 25% !important;
+    height: 6px !important;
+}
+
+.custom-bullet{
+    /* background-color: white !important; */
+    height: 6px !important;
+}
+
+.description{
+    font-weight:520;
+}
+
