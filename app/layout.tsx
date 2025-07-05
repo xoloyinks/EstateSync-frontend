@@ -20,6 +20,8 @@ export default function RootLayout({
   // Hydration fix: Only render children after mount
   const [mounted, setMounted] = useState(false);
 
+  console.log(mounted)
+
   useEffect(() => {
     setMounted(true);
      if(typeof window !== 'undefined'){

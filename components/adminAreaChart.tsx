@@ -1,5 +1,5 @@
 "use client"
-import { Chart, ChartType, ChartData, ChartOptions } from 'chart.js/auto';
+import { Chart } from 'chart.js/auto';
 import React, { useEffect, useRef } from 'react';
 
 export default function AdminAreaChart() {

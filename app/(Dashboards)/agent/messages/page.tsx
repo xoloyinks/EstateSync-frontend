@@ -83,6 +83,8 @@ export default function Messages() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  console.log(fileUrls)
+
   // Auto-scroll when messages change
   useEffect(() => {
     scrollToBottom();

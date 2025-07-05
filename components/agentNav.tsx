@@ -23,9 +23,10 @@ export type Navs = {
 
 export default function AgentNav({ inView, onSlideIn }: { inView: boolean; onSlideIn: () => void }) {
     const pathName = usePathname();
-    let basePath = 'agent'
+    const basePath = 'agent'
     const [active, setActive] = useContext(UserData);
     const [user, setUser] = useState<userType | undefined>(undefined)
+    console.log(active)
     const navs: Navs[] = [
         {
             id: 1,

@@ -1,6 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
-import { UserData } from "../../tokenContext";
+import { useEffect, useState } from "react";
 import { FaAccusoft, FaTimes } from "react-icons/fa";
 import { RiMenuFold4Line } from "react-icons/ri";
 import Link from "next/link";
@@ -11,7 +10,6 @@ import AdminData from "./adminContext";
 
 
 export default function ManagementLayout({children}: Readonly<{children: React.ReactNode;}>) {
-    const [active] = useContext(UserData)
     const [inView, setInview] = useState(false);
     const [cookieUser, setCookieUser] = useState<string | undefined>(Cookies.get('user'));
     const [user, setUser] = useState<userType | undefined>(undefined);

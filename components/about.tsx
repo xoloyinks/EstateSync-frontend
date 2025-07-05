@@ -23,9 +23,9 @@ export default function About() {
           <p className="text-xs sm:text-sm">
             EstateSync was born out of the real-world challenges faced by estate supervisors in managing tenant information, rent payments, and communication across multiple estates. With traditional methods proving to be inefficient and error-prone, EstateSync was developed to bring structure, ease, and transparency to estate management.
             <br /><br />
-            Founded by a team passionate about digital transformation in real estate, EstateSync is more than just a software—it's a solution built from lived experience. With five estates as its pilot case, EstateSync aims to become the preferred tool for estate supervisors, facility managers, and landlords across Nigeria and beyond.
+            Founded by a team passionate about digital transformation in real estate, EstateSync is more than just a software—it&apos;s a solution built from lived experience. With five estates as its pilot case, EstateSync aims to become the preferred tool for estate supervisors, facility managers, and landlords across Nigeria and beyond.
             <br /><br />
-            We're committed to simplifying processes, improving tenant-supervisor relationships, and offering a secure and user-friendly experience that evolves with the dynamic needs of property management.
+            We&apos;re committed to simplifying processes, improving tenant-supervisor relationships, and offering a secure and user-friendly experience that evolves with the dynamic needs of property management.
           </p>
           <div className="flex gap-2 sm:gap-5 mt-4">
             <div className="border-4 border-gray-300 bg-white rounded-full w-28 h-28 sm:w-36 sm:h-36 flex items-center flex-col justify-center">

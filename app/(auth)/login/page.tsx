@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { FaAccusoft } from 'react-icons/fa'
 import { useLoginMutation } from '@/app/api/general'
 import Cookies from 'js-cookie';
-import { ImSpinner9 } from "react-icons/im";
 import { toast, ToastContainer } from 'react-toastify'
 import { UserData } from '@/app/tokenContext'
 import Loading from '@/components/isloading'
@@ -16,7 +15,7 @@ type FormData = {
 }
 
 export default function Login() {
-   const [submitData, { data, isLoading, error }] = useLoginMutation();
+   const [submitData, { isLoading }] = useLoginMutation();
    const [ active, setActive ] = useContext(UserData);
     const [formData, setFormData] = useState({
       email: '',

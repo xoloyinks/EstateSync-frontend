@@ -10,7 +10,6 @@ import { tenantsType } from "@/app/types";
 import { PropertyType } from "@/app/types";
 import { userType } from "@/app/types";
 import { agentType } from "@/app/types";
-import Loading from "@/components/isloading";
 import { ImSpinner9 } from "react-icons/im";
 
 

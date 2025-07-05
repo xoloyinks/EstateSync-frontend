@@ -48,6 +48,7 @@ export default function Page() {
   if (createdAt && nextPaymentDate) {
     const monthsToNextPayment = getMonthsDifference(createdAt, nextPaymentDate);
     isValidAnnualCycle = monthsToNextPayment % 12 === 0; // Check if next_payment_date is a multiple of 12 months from created_at
+    console.log(isValidAnnualCycle)
   }
 
   return (

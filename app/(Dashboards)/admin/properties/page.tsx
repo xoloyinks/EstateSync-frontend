@@ -1,8 +1,9 @@
 "use client";
 import { useGetPropertiesQuery } from '@/app/api/properties';
+import { PropertyType } from '@/app/types';
 import Property from '@/components/property';
 import React, { useEffect, useState } from 'react';
-import { PropertyType } from '@/components/property';
+
 
 const PROPERTIES_PER_PAGE = 6;
 
@@ -13,6 +14,8 @@ export default function Properties() {
   const [paginatedProperties, setPaginatedProperties] = useState<PropertyType[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { data, isLoading } = useGetPropertiesQuery([]);
+
+  console.log(filteredProperties);
 
   useEffect(() => {
     if (data) {

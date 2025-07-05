@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { SiGoogleforms } from 'react-icons/si';
-import { Issue, Tenant, User } from '../tenantContext';
+import { Issue, Tenant } from '../tenantContext';
 import { usePostIssueMutation, useUpdateIssueMutation } from '@/app/api/issues';
 import { toast, ToastContainer } from 'react-toastify';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -104,6 +104,8 @@ export default function Request() {
 
   console.log(myIssues)
 
+  console.log(setSubmitted);
+
    useEffect(() => {
           if (isError && error) {
             if (isFetchBaseQueryError(error)) {
@@ -157,7 +159,8 @@ const handleStatus = async (e: React.MouseEvent<HTMLButtonElement>, data: string
   e.preventDefault();
   try{
     const res = await submitStatus({id,data: {status: data.toLowerCase() === 'pending' ? 'solved' : 'pending'}}).unwrap();
-    toast.success(`Request updated to ${data.toLowerCase() === 'pending' ? 'solved' : 'pending'}`, {
+    if(res){
+        toast.success(`Request updated to ${data.toLowerCase() === 'pending' ? 'solved' : 'pending'}`, {
                                       position: "top-center",
                                       autoClose: 5000,
                                       hideProgressBar: false,
@@ -166,6 +169,7 @@ const handleStatus = async (e: React.MouseEvent<HTMLButtonElement>, data: string
                                       draggable: true,
                                       theme: "dark",
                       });
+    }
   }catch(err){
     console.error(err)
   }

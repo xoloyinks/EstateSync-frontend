@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { UserData } from '@/app/tokenContext';
 import { userType } from '@/app/types';
 import { TfiMenu } from "react-icons/tfi";
+import Link from 'next/link';
 
 export default function Nav() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -39,9 +40,9 @@ export default function Nav() {
     }, []);
 
     useEffect(() => {
-      let userData = Cookies.get('user');
+      const userData = Cookies.get('user');
       if(userData){
-          let data: userType = JSON.parse(userData);
+          const data: userType = JSON.parse(userData);
           setRole(data.role || '');
       }
       const handleScroll = () => {
@@ -64,13 +65,13 @@ export default function Nav() {
 
   return (
     <section className={`w-full p-3 sm:px-20 sm:py-8 flex justify-between items-center fixed left-0 z-50 ${isScrolled ? 'bg-slate-900 text-white shadow-sm shadow-gray-800': 'bg-transparent'}`}>
-        <a href='/' className='max-sm:text-[1.2rem] text-2xl font-bold flex items-center gap-2'>
+        <Link href='/' className='max-sm:text-[1.2rem] text-2xl font-bold flex items-center gap-2'>
             <FaAccusoft className='text-5xl' />
             <span>EstateSync</span>
-        </a>
+        </Link>
 
         <div className='sm:space-x-7 max-sm:text-sm space-x-3 font-semibold flex items-center not-sm:hidden'>
-            <a href="/" className='hover:text-black/50'>Contact us</a>
+            <Link href="/" className='hover:text-black/50'>Contact us</Link>
             {/* Handle Logout */}
             {active && <button onClick={handleSignout} className='hover:text-black/50 cursor-pointer'>Sign out</button>}
             {

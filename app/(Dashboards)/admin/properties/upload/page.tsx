@@ -1,5 +1,4 @@
 "use client";
-import { useCreatePropertiesMutation } from '@/app/api/properties';
 import Input from '@/components/input';
 import Loading from '@/components/isloading';
 import React, { useState, useRef, useContext } from 'react';
@@ -79,10 +78,7 @@ export default function UploadProperty() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData: FormData = new FormData();
-    let backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    let totalSize = 0;
-    let outputText = '=== FormData Contents ===\n';
-    // Submit logic here (e.g., send to API)
+    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api/";
     
     formData.append('title', form.title);
     formData.append('location', form.location);

@@ -17,6 +17,8 @@ const Properties: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const { data, isLoading } = useGetPropertiesQuery([]);
 
+  console.log(filteredProperties)
+
   useEffect(() => {
     if (data?.data) {
       // properties not acquired

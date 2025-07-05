@@ -73,6 +73,7 @@ export default function Messages() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const admin = useContext(Admin) as userType | undefined;
+  console.log(fileUrls)
   
 
   const scrollToBottom = () => {

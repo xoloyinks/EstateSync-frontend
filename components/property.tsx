@@ -20,9 +20,9 @@ import { TbCurrencyNaira } from "react-icons/tb";
 
 export default function Property({ images, description, price, location, bedrooms, agent, title, mode, id, acquired }: PropertyType) {
   const pathName = usePathname();
-  let isAgentUrl = pathName.includes('/agent');
-  let isAdminUrl = pathName.includes('/admin');
-  let verifiedTenant: userType | undefined = acquired;
+  const isAgentUrl = pathName.includes('/agent');
+  const isAdminUrl = pathName.includes('/admin');
+  const verifiedTenant: userType | undefined = acquired;
   const route = useRouter()
 
   // console.log(title, acquired)
@@ -62,7 +62,7 @@ export default function Property({ images, description, price, location, bedroom
                       }}
                       className='w-full h-full'
                       >
-                      {images.map((el : any, i : number) => {
+                      {images.map((el : string, i : number) => {
                           return <SwiperSlide key={i} className="w full h-full relative">
                             <Image src={el} alt={`Slide ${i} `} fill className="object-cover" />
                             </SwiperSlide>;

@@ -176,7 +176,7 @@ export default function Agent() {
                   </tr>
                 ) : (
                   filteredPayments.map((row, idx) => (
-                    <tr key={row.id}>
+                    <tr key={idx}>
                       <td className='p-3'>{row.id}</td>
                       <td className='p-3'>{row.date}</td>
                       <td className='p-3'>{row.property}</td>

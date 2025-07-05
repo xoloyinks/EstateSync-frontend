@@ -25,12 +25,15 @@ export default function AdminBar() {
   // Calculate counts for each category
   const getCategoryCounts = () => {
     const counts = new Array(maintenanceLables.length).fill(0);
-    issues && issues.forEach((request) => {
+    if(issues){
+       issues.forEach((request) => {
       const index = maintenanceLables.indexOf(request.category);
       if (index !== -1) {
         counts[index]++;
       }
     });
+    }
+   
     return counts;
   };
 

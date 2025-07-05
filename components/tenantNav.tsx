@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import React, { useContext, useEffect, useState } from 'react'
-import { IconType } from 'react-icons'
 import { FaUser } from 'react-icons/fa6'
 import pp from '@/public/images/no-image.jpg'
 import Link from 'next/link'
@@ -17,7 +16,7 @@ import { userType, Navs } from '@/app/types'
 export default function TenantNav({ inView, onSlideIn, user }: { inView: boolean; onSlideIn: () => void, user?: userType | undefined }) {
     const pathName = usePathname();
     const [userImage, setUserImage] = useState<string | undefined>('')
-    let basePath = 'tenant'
+    const basePath = 'tenant'
     const [active, setActive] = useContext(UserData);
     const navs: Navs[] = [
         {

@@ -1,24 +1,23 @@
 "use client"
 import Nav from '@/components/nav'
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
-import { FaAccusoft, FaPen } from 'react-icons/fa'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import {  FaPen } from 'react-icons/fa'
 import pp from '@/public/images/no-image.jpg'
 import Input from '@/components/input'
 import { useCreateAccountMutation } from '@/app/api/general'
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
-import { ImSpinner9 } from 'react-icons/im'
 import Loading from '@/components/isloading'
 
 export default function Signup() {
-    const [submitData, { data, isLoading }] = useCreateAccountMutation();
+    const [submitData, { isLoading }] = useCreateAccountMutation();
     const route = useRouter();
-    const fileInputRef: any = useRef(null)
+    const fileInputRef = useRef<HTMLInputElement | null>(null)
     const [fileObj, setFileObj] = useState<File | null>(null)
-    const [profileImage, setProfileImage] = useState<any>()
+    const [profileImage, setProfileImage] = useState<string | undefined>()
     const [showPass, setShowPass] = useState(false)
-    var createAccount: FormData = new FormData();
+    const createAccount: FormData = new FormData();
     const [formData, setFormData] = useState({
         image: pp,
         email: '',
@@ -46,8 +45,11 @@ export default function Signup() {
         }
     }, []);
 
-    const handleButtonClick = (e: any) => {
+    const handleButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        if(fileInputRef.current === null){
+            return;
+        }
         fileInputRef.current.click(); // Trigger the hidden file input
     };
 
@@ -232,7 +234,7 @@ export default function Signup() {
                     </div>
 
                     <div className='text-xs mt-3 sm:flex gap-1 items-center'>
-                        <input type='checkbox' checked={showPass} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShowPass(!showPass)} />
+                        <input type='checkbox' checked={showPass} onChange={() => setShowPass(!showPass)} />
                         Show password
                     </div>
 

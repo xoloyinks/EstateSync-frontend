@@ -7,21 +7,14 @@ export default function AgentRequestsPage() {
   const [requests, setRequests] = useState<issuesType[] | undefined>();
   const issues = useContext(AgentIssues);
 
+  console.log(requests)
+
   // Filter states
   const [tenantFilter, setTenantFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [propertyFilter, setPropertyFilter] = useState('');
   const [issueFilter, setIssueFilter] = useState('');
   const [dateFilter, setDateFilter] = useState<string>(''); // Changed to string for input compatibility
-
-  const handleStatusChange = (id: string, newStatus: 'Pending' | 'Solved') => {
-    setRequests((prev) =>
-      prev?.map((req) =>
-        req._id === id ? { ...req, status: newStatus } : req
-      )
-    );
-  };
-
   const [filteredRequests, setFilteredRequests] = useState<issuesType[] | undefined>(); // Moved to state
 
   useEffect(() => {

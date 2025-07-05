@@ -23,9 +23,11 @@ export type Navs = {
 
 export default function AdminNav({ inView, onSlideIn, user }: { inView: boolean; onSlideIn: () => void, user: userType | undefined }) {
     const pathName = usePathname();
-    let basePath = 'admin'
+    const basePath = 'admin'
     const [active, setActive] = useContext(UserData);
     const [userImage, setUserImage] = useState<string | undefined>('')
+
+    console.log(active)
     
     const navs: Navs[] = [
         {

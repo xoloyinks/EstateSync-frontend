@@ -9,12 +9,10 @@ type InputType = {
     name: string
     label: string
     disabled?: boolean
-    onChange: any
+    onChange: (target: { name: string; value: string }) => void 
 }
 
 export default function Input({placeholder = '', type= 'text', value, name, onChange, label, disabled = false} : InputType) {
-    const [inValue, setInvalue] = useState(value)
-
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         onChange(e.target)
     }

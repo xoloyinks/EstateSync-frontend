@@ -62,10 +62,6 @@ const getDocumentUrl = async (documentId: string, retries = 3, delay = 1000): Pr
   return "";
 };
 
-const getCurrentTime = () => {
-  const now = new Date();
-  return now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-};
 
 export default function Messages() {
   const [selectedUser, setSelectedUser] = useState<userType | null>(null);
@@ -117,6 +113,8 @@ export default function Messages() {
       setIsLoading(false);
     }
   };
+
+  console.log(fileUrls)
 
   // Scroll to bottom of chat
   const scrollToBottom = () => {

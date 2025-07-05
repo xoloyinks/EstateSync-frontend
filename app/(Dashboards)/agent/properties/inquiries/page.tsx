@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useContext, useEffect, useState } from "react";
 import { useApproveApplicationMutation, useGetApplicationsQuery, useRejectApplicationMutation } from "@/app/api/general";
 import { ApplicationsType, userType } from "@/app/types";
@@ -67,25 +66,6 @@ export default function Inquiries() {
 
     setRequests(Object.values(grouped));
   }, [applications, user?.id]);
-
-  const updateStatus = (
-    propertyIdx: number,
-    clientId: string,
-    status: "approved" | "rejected"
-  ) => {
-    setRequests((prev) =>
-      prev.map((prop, idx) =>
-        idx === propertyIdx
-          ? {
-              ...prop,
-              clients: prop.clients.map((c) =>
-                c.id === clientId ? { ...c, status } : c
-              ),
-            }
-          : prop
-      )
-    );
-  };
 
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === "Escape" && setModalImg(null);
@@ -161,7 +141,7 @@ export default function Inquiries() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredRequests.map((prop, propIdx) => (
           <div
-            key={prop.property}
+            key={propIdx}
             className="bg-white/90 backdrop-blur-md rounded-2xl p-6 shadow-xl relative"
           >
             <h3 className="text-xl font-bold mb-1">{prop.property}</h3>

@@ -2,7 +2,6 @@
 import { useGetOneTenantQuery, useGetPaymentDetailsQuery, useGetPaymentHistoryQuery, useGetTenantIssuesQuery } from '@/app/api/tenants';
 import { issuesType, PaymentType, tenantsType, userType } from '@/app/types';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
-import Loading from '@/components/isloading';
 import Cookies from 'js-cookie';
 import { useGetAdminQuery } from '@/app/api/general';
 import { ImSpinner9 } from 'react-icons/im';
@@ -23,10 +22,10 @@ export default function TenantData({ children }: { children: React.ReactNode }):
   const {data: admin, isLoading: adminLoading} = useGetAdminQuery(undefined)
 
   // Fetch issues and tenant data
-  const { data: issuesData, isLoading: issuesLoading, error: issuesError } = useGetTenantIssuesQuery(id, {
+  const { data: issuesData, isLoading: issuesLoading } = useGetTenantIssuesQuery(id, {
     skip: !id, // Skip query if id is null
   });
-  const { data: tenantData, isLoading: tenantLoading, error: tenantError } = useGetOneTenantQuery(id, {
+  const { data: tenantData, isLoading: tenantLoading } = useGetOneTenantQuery(id, {
     skip: !id, // Skip query if id is null
   });
   const { data: paymentData, isLoading: paymentLoading } = useGetPaymentDetailsQuery(id, {

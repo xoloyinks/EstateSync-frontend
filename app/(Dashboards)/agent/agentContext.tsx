@@ -7,7 +7,6 @@ import { PropertyType } from '@/app/types';
 import { ImSpinner9 } from 'react-icons/im';
 import { useGetAgentIssuesQuery } from '@/app/api/issues';
 import { useGetAdminQuery } from '@/app/api/general';
-import { cn } from '@/lib/utils';
 
 export const Properties = createContext<PropertyType[] | undefined>(undefined);
 export const User = createContext<userType | undefined>(undefined)

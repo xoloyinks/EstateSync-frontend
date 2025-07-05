@@ -1,6 +1,6 @@
 "use client";
 import { useChangePasswordMutation } from '@/app/api/general';
-import React, { use, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { MdLock } from 'react-icons/md';
 import { User } from '../agentContext';
 import Loading from '@/components/isloading';
@@ -25,7 +25,7 @@ export default function ChangePassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [show, setShow] = useState({ current: false, newPass: false, confirm: false });
-  const [ submitData, { data, isLoading, error: myError, isError } ] = useChangePasswordMutation();
+  const [ submitData, { isLoading, error: myError, isError } ] = useChangePasswordMutation();
   const user = useContext(User);
   let email: string;
   if(user){
@@ -105,7 +105,7 @@ export default function ChangePassword() {
       setNewPass('')
       setConfirm('')
     }catch(err){
-      // console.error(err)
+      console.error(err)
     }
 
   };

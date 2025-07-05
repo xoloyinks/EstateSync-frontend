@@ -27,7 +27,7 @@ export default function PropertyDetails() {
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
-  let x = Cookies.get("user");
+  const x = Cookies.get("user");
   let user: userType | undefined;
   let role: string | undefined;
 
@@ -37,7 +37,7 @@ export default function PropertyDetails() {
   }
 
   useEffect(() => {
-    let propertyStringObject: string | undefined = Cookies.get("Property");
+    const propertyStringObject: string | undefined = Cookies.get("Property");
     if (typeof propertyStringObject === "string") {
       setProperty(JSON.parse(propertyStringObject));
     }
@@ -99,6 +99,7 @@ export default function PropertyDetails() {
         });
       }
     } catch(err){
+      console.error("Error submitting application:", err);
       setError("An error occurred while submitting your application.");
       toast.error('Error occured!', {
         position: "top-center",

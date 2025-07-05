@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCaretLeft, FaNairaSign } from "react-icons/fa6";
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
@@ -23,6 +23,8 @@ export default function CheckStatus(){
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [paymentGenerated, setPaymentGenerated] = useState(false);
+
+  console.log(paymentGenerated)
 
   const user = Cookies.get("user") ? JSON.parse(Cookies.get("user") || "") : null;
 

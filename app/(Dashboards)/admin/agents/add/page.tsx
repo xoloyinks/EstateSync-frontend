@@ -1,10 +1,10 @@
 "use client";
 import React, { useContext, useRef, useState, useCallback } from "react";
 import { Property } from "../../adminContext";
-import { Property as PropertyType } from "../page";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import Loading from "@/components/isloading";
+import { PropertyType } from "@/app/types";
 
 interface FormData {
   image: File | null;
@@ -19,7 +19,7 @@ interface FormData {
 }
 
 export default function AddAgent() {
-  const properties = useContext(Property);
+  const properties: PropertyType[] | null = useContext(Property);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<FormData>({
     image: null,
@@ -119,7 +119,7 @@ export default function AddAgent() {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
-        const data = await res.json();
+
         toast.success("Agent added successfully!", {
           position: "top-center",
           autoClose: 5000,
@@ -312,17 +312,17 @@ export default function AddAgent() {
               Assign Properties
             </label>
             <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-4 bg-gray-50">
-              {properties?.length ? (
-                properties.map((prop: PropertyType) => (
+              {properties && properties?.length > 0 ? (
+                properties.map((prop: PropertyType, index:number) => (
                   <label
-                    key={prop._id}
+                    key={index}
                     className="flex items-center gap-3 text-sm text-gray-600 cursor-pointer py-1 hover:text-sky-600 transition-colors"
                   >
                     <input
                       type="checkbox"
                       name="properties"
-                      checked={form.properties.includes(prop._id)}
-                      onChange={(e) => handlePropertyChange(prop._id, e.target.checked)}
+                      checked={form.properties.includes(prop.id)}
+                      onChange={(e) => handlePropertyChange(prop.id, e.target.checked)}
                       className="accent-sky-600 h-4 w-4"
                       aria-label={`Assign property ${prop.title}`}
                     />

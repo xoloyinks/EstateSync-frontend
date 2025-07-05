@@ -20,7 +20,7 @@ export default function Testimonial() {
           <div className="border-4 border-gray-300 p-5 rounded-4xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
             <RiDoubleQuotesL className="text-4xl mx-auto" />
             <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn't be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
+            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
             <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
               <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
@@ -28,7 +28,7 @@ export default function Testimonial() {
           <div className="border-4 border-gray-300 p-5 rounded-4xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
             <RiDoubleQuotesL className="text-4xl mx-auto" />
             <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn't be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
+            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
             <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
               <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
@@ -39,7 +39,7 @@ export default function Testimonial() {
           <div className="border-4 border-gray-300 p-5 rounded-4xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
             <RiDoubleQuotesL className="text-4xl mx-auto" />
             <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn't be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
+            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
             <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
               <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>
@@ -47,7 +47,7 @@ export default function Testimonial() {
           <div className="border-4 border-gray-300 p-5 rounded-4xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
             <RiDoubleQuotesL className="text-4xl mx-auto" />
             <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn't be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
+            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
             <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
               <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
             </p>

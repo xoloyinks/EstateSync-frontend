@@ -1,16 +1,14 @@
 "use client";
 import React, { useRef, useEffect, useContext } from "react";
 import Chart from "chart.js/auto";
-import { Tenant, user } from "@/app/(Dashboards)/admin/adminContext";
-import { tenantsType } from "@/app/(Dashboards)/admin/tenants/page";
-import clsx from "clsx";
-
+import { Tenant } from "@/app/(Dashboards)/admin/adminContext";
+import { tenantsType } from "@/app/types";
 
 
 export default function AdminDoughnutChart() {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
-  let tenants = useContext<tenantsType[] | null>(Tenant); // Get tenants from context
+  const tenants = useContext<tenantsType[] | null>(Tenant); // Get tenants from context
 
 
   const genderLabels = ["Male", "Female"];
@@ -18,8 +16,11 @@ export default function AdminDoughnutChart() {
   // Calculate counts for each gender
   const getGenderCounts = () => {
     const counts = new Array(genderLabels.length).fill(0);
-    tenants && tenants.forEach((tenant) => {
-      const index = genderLabels.indexOf(tenant.user.gender);
+    if(!tenants) {
+      return counts; // Return empty counts if tenants is null
+    }
+    tenants.forEach((tenant: tenantsType) => {
+      const index = genderLabels.indexOf(tenant.user.gender || '');
       if (index !== -1) {
         counts[index]++;
       }
