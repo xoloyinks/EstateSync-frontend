@@ -1,16 +1,17 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { agent, Agent, user } from '@/app/(Dashboards)/admin/adminContext';
+import { Agent } from '@/app/(Dashboards)/admin/adminContext';
 import { useGetPropertyQuery } from '@/app/api/properties';
 import Loading from '@/components/isloading';
+import { agentType, PropertyType, userType } from '@/app/types';
 
 export type Property = {
   title: string;
   description: string;
   price: string;
   location: string;
-  agent: user;
+  agent: userType;
   mode: string;
   bedrooms: string;
   createdAt: Date;
@@ -45,19 +46,19 @@ const AgentProperties = ({ id }: { id: string }) => {
 export default function Agents() {
   const [modalImage, setModalImage] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const agents: agent[] | null = useContext(Agent);
+  const agents: agentType[] | null = useContext(Agent);
 
   const handleImageClick = (img: string) => setModalImage(img);
   const handleCloseModal = () => setModalImage(null);
 
-  const filteredAgents: agent[] | null =
-    agents?.filter((agent: agent) => {
+  const filteredAgents: agentType[] | null =
+    agents?.filter((agent: agentType) => {
       const q = search.toLowerCase();
       return (
         agent.user.first_name.toLowerCase().includes(q) ||
         agent.user.last_name.toLowerCase().includes(q) ||
         agent.user.email.toLowerCase().includes(q) ||
-        agent.assignedProperties.some((prop) => prop.toLowerCase().includes(q))
+        agent.assignedProperties.some((prop) => prop.title.toLocaleLowerCase().includes(q))
       );
     }) ?? [];
 
@@ -117,8 +118,8 @@ export default function Agents() {
               <div>
                 <h4 className="font-semibold text-sky-700 text-sm mb-2">Properties Managed</h4>
                 <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 max-h-24 overflow-y-auto">
-                  {agent.assignedProperties.map((prop, idx) => (
-                    <AgentProperties id={prop} key={idx} />
+                  {agent.assignedProperties.map((prop: PropertyType, idx) => (
+                    <AgentProperties id={prop.id} key={idx} />
                   ))}
                 </ul>
               </div>
