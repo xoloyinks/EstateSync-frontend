@@ -94,7 +94,7 @@ export default function Messages() {
     try {
       setPreviousChatLoading(true);
       const response = await fetch(
-        `http://localhost:3001/api/chat/history/${userId}/${otherUserId}`,
+        `https://estatesync-uhkn.onrender.com/api/chat/history/${userId}/${otherUserId}`,
         {
           headers: {
             Authorization: `Bearer ${getToken()}`,
