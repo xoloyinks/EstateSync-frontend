@@ -16,7 +16,7 @@ const getToken = () => {
 };
 
 // Initialize Socket.IO with increased payload limit
-const socket: Socket = io("ws://localhost:3001", {
+const socket: Socket = io("wss://estatesync-uhkn.onrender.com", {
   path: "/api/socket.io",
   reconnection: true,
   // autoConnect: false, // don't connect immediately
@@ -29,7 +29,7 @@ const socket: Socket = io("ws://localhost:3001", {
 const getDocumentUrl = async (documentId: string, retries = 3, delay = 1000): Promise<string> => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      const response = await fetch(`http://localhost:3001/api/document/url/${documentId}`);
+      const response = await fetch(`https://estatesync-uhkn.onrender.com/api/document/url/${documentId}`);
       if (!response.ok) throw new Error(`Failed to fetch document URL: ${response.status}`);
       const { url } = await response.json();
       console.log(`Fetched URL for document ${documentId} (attempt ${attempt}): ${url}`);
