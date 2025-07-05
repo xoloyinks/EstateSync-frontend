@@ -21,7 +21,7 @@ export default function Tenants() {
         tenant.user.first_name.toLowerCase().includes(q) ||
         tenant.user.last_name.toLowerCase().includes(q) ||
         tenant.user.email.toLowerCase().includes(q) ||
-        tenant.user.gender.toLowerCase().includes(q) ||
+        tenant.user.gender && tenant.user.gender.toLowerCase().includes(q) || 
         tenant.user.phone_number.toLowerCase().includes(q) ||
         tenant.acquiredProperty.title.toLowerCase().includes(q) ||
         tenant.status.toLowerCase().includes(q) ||
@@ -127,7 +127,7 @@ export default function Tenants() {
                   </td>
                   <td className="py-4 px-6">
                     <Link
-                      href={`/properties/${tenant.acquiredProperty._id}`}
+                      href={`/properties/${tenant.acquiredProperty.id}`}
                       className="text-sky-600 hover:text-sky-800 transition-colors"
                     >
                       {tenant.acquiredProperty.title}
