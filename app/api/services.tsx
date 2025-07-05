@@ -1,10 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 
+
 const url =
-  process.env.PUBLIC_NEXT_NODE_ENV === "production"
+  process.env.NEXT_PUBLIC_NODE_ENV === "production"
     ? "https://estatesync-uhkn.onrender.com/api"
     : "http://localhost:3001/api";
+
+    console.log(process.env.NEXT_PUBLIC_NODE_ENV )
+
 
 export const apiSlice = createApi({
   reducerPath: "api",

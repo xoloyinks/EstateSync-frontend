@@ -8,6 +8,7 @@ import Testimonial from "@/components/testimonial";
 
 export default function Home(){
   console.log(process.env.NEXT_PUBLIC_NODE_ENV);
+  
   return (
    <section className="w-screen overflow-x-hidden relative">
       <Nav />
