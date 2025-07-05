@@ -214,13 +214,13 @@ export default function Profile() {
             <Input
               label="First Name"
               name="first_name"
-              onChange={handleChange}
+              onChange={() => handleChange}
               value={formData.first_name}
             />
             <Input
               label="Last Name"
               name="last_name"
-              onChange={handleChange}
+              onChange={() => handleChange}
               value={formData.last_name}
             />
           </div>
@@ -229,7 +229,7 @@ export default function Profile() {
               label="Phone Number"
               name="phone_number"
               type="tel"
-              onChange={handleChange}
+              onChange={() => handleChange}
               value={formData.phone_number}
             />
             <div className="opacity-50">
@@ -237,7 +237,7 @@ export default function Profile() {
                   label="Email"
                   name="email"
                   type="email"
-                  onChange={handleChange}
+                  onChange={() => handleChange}
                   value={formData.email}
                   disabled
                 />
@@ -247,7 +247,7 @@ export default function Profile() {
               <Input
                 label="Gender"
                 name="gender"
-                onChange={handleChange}
+                onChange={() => handleChange}
                 value={formData.gender || ''}
                 disabled
                 
