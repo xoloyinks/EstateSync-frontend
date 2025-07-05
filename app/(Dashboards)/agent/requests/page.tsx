@@ -4,10 +4,7 @@ import { AgentIssues } from '../agentContext';
 import { issuesType } from '@/app/types';
 
 export default function AgentRequestsPage() {
-  const [requests, setRequests] = useState<issuesType[] | undefined>();
   const issues = useContext(AgentIssues);
-
-  console.log(requests)
 
   // Filter states
   const [tenantFilter, setTenantFilter] = useState('');

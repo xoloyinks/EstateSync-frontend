@@ -1,7 +1,7 @@
 "use client"
 import Nav from '@/components/nav'
 import Image from 'next/image'
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {  FaPen } from 'react-icons/fa'
 import pp from '@/public/images/no-image.jpg'
 import Input from '@/components/input'
@@ -53,7 +53,10 @@ export default function Signup() {
         fileInputRef.current.click(); // Trigger the hidden file input
     };
 
-    const handleFileChange = (event: any) => {
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.files === null || event.target.files.length === 0){
+            return;
+        }
         createAccount.append('image', event.target.files[0])
         setFileObj(event.target.files[0])
     };
