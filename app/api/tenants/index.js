@@ -31,4 +31,4 @@ const tenantApiSlice = apiSlice.injectEndpoints({
 
     })
 });
-export const { useGetTenantsQuery, useGetTenantIssuesQuery, useGetOneTenantQuery, useGetPaymentDetailsQuery, useGetPaymentHistoryQuery } = tenantApiSlice;
+export const { useGetTenantsQuery, useGetTenantIssuesQuery, useGetOneTenantQuery, useGetPaymentDetailsQuery, useLazyGetPaymentHistoryQuery } = tenantApiSlice;

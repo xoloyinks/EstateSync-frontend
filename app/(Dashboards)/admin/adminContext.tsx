@@ -4,13 +4,14 @@ import { useGetAgentsQuery } from '../../api/agents/index';
 import { useGetTenantsQuery } from '../../api/tenants/index';
 import { useGetPropertiesQuery } from '../../api/properties/index';
 import { useGetIssuesQuery } from '../../api/issues/index';
-import { issuesType } from "@/app/types";
+import { issuesType, PaymentType } from "@/app/types";
 import Cookies from "js-cookie"
 import { tenantsType } from "@/app/types";
 import { PropertyType } from "@/app/types";
 import { userType } from "@/app/types";
 import { agentType } from "@/app/types";
 import { ImSpinner9 } from "react-icons/im";
+import { useGetAllPaymentHistoriesQuery } from "@/app/api/general";
 
 
 
@@ -19,18 +20,21 @@ export const Tenant = createContext<null | tenantsType[]>(null)
 export const Property = createContext<null | PropertyType[]>(null)
 export const Issue = createContext<null | issuesType[]>(null)
 export const User = createContext<undefined | userType>(undefined)
+export const Payment = createContext<null | PaymentType[]>(null);
 
 export default function AdminData({ children }: { children: React.ReactNode }): React.ReactNode {
     const { data, isLoading } = useGetAgentsQuery([]);
     const { data: tenantData, isLoading: tanantLoading } = useGetTenantsQuery([])
     const { data: propertyData, isLoading: propertyLoading } = useGetPropertiesQuery(null)
     const { data: issueData, isLoading: issueLoading } = useGetIssuesQuery(null)
+    const { data: paymentHistory, isLoading: paymentLoading } = useGetAllPaymentHistoriesQuery(null);
     const [user, setUser] = useState<userType | undefined>()
 
     const [agent, setAgent] = useState<null | agentType[]>(null);
     const [tenants, setTenants] = useState<null | tenantsType[]>(null)
     const [properties, setProperties] = useState<null | PropertyType[]>(null)
     const [issues, setIssues] = useState<null | issuesType[]>(null)
+    const [payments, setPayments] = useState<null | PaymentType[]>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -59,13 +63,17 @@ export default function AdminData({ children }: { children: React.ReactNode }): 
         if(issueData){
             setIssues(issueData.data);
         }
-    }, [data, tenantData, propertyData, issueData]);
+        if(paymentHistory){
+            setPayments(paymentHistory.data);
+        }
+    }, [data, tenantData, propertyData, issueData, paymentHistory]);
 
     // Memoize context value to avoid unnecessary re-renders
     const agentValue = useMemo(() => agent, [agent]);
     const tenantValue = useMemo(() => tenants, [tenants])
     const propertyValue = useMemo(() => properties, [properties])
     const issueValue = useMemo(() => issues, [issues])
+    const paymentValue = useMemo(() => payments, [payments]);
 
     return (
         <Agent.Provider value={agentValue}>
@@ -73,14 +81,16 @@ export default function AdminData({ children }: { children: React.ReactNode }): 
         <Property.Provider value={propertyValue}>
         <Issue.Provider value={issueValue}>
         <User.Provider value={user}>
+        <Payment.Provider value={paymentValue}>
              {
-                isLoading || tanantLoading || propertyLoading || issueLoading ?
+                isLoading || tanantLoading || propertyLoading || issueLoading || paymentLoading ?
                 <div className="w-screen h-screen bg-gray-200 absolute z-50 flex items-center justify-center">
                     <ImSpinner9 className='animate-spin text-black text-2xl' />
                 </div> 
                 :
                 children
             }
+        </Payment.Provider>
         </User.Provider>
         </Issue.Provider>
         </Property.Provider>

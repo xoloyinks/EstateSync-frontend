@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/effect-cards';
 import Image from 'next/image';
 import { HiMiniHomeModern } from "react-icons/hi2";
-import { FaHeart, FaMapPin } from 'react-icons/fa6';
+import { FaMapPin } from 'react-icons/fa6';
 import { FaUserTie } from 'react-icons/fa';
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation';
@@ -41,9 +41,9 @@ export default function Property({ images, description, price, location, bedroom
     <div className='w-[24%] not-sm:w-[90%] not-sm:mx-auto min-w-[350px] h-[500px] rounded-2xl shadow-2xl shadow-gray-400 overflow-hidden hover:scale-105 transition-all ease-in-out hover:shadow-gray-600 border-gray-500'>
            
         <div className='w-full h-[300px] relative overflow-hidden'>
-           <button className='bg-black/10 absolute top-5 right-5 p-3 rounded-full z-20'>
+           {/* <button className='bg-black/10 absolute top-5 right-5 p-3 rounded-full z-20'>
               <FaHeart className='text-white' />
-            </button>
+            </button> */}
             <Swiper
                       spaceBetween={0}
                       modules={[Autoplay, Pagination, Navigation]} 
@@ -92,7 +92,7 @@ export default function Property({ images, description, price, location, bedroom
 
            <div className='flex items-center gap-1 bg-gray-100 text-gray-400 text-[12px] p-1 rounded w-fit'>
               <HiMiniHomeModern />
-              <span>{bedrooms}</span>
+              <span>{bedrooms} Bedrooms</span>
            </div>
           
           {/* Agent */}

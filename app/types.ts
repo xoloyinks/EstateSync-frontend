@@ -70,7 +70,8 @@ export type ApplicationsType = {
   proof: string,
   status: string,
   code: string,
-  createdAt: Date
+  createdAt: Date,
+  payment: string
 }
 
 export type PaymentType = {

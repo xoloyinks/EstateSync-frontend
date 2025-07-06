@@ -35,6 +35,7 @@ export default function CheckStatus(){
   const [subscribe] = useSubscribeMutation();
 
 const [hasGeneratedUrl, setHasGeneratedUrl] = useState(false);
+console.log(data)
 
 useEffect(() => {
   const generatePaymentUrl = async () => {
@@ -42,6 +43,16 @@ useEffect(() => {
 
     const userIdFromData = data?.data?.user?.id;
     const property = data?.data?.property;
+
+    if(data?.data?.payment === "paid") {
+      setStatusData(data.data);
+      setError("This application has already been paid for.");
+      toast.error("This application has already been paid for!", {
+        position: "top-center",
+        theme: "dark",
+      });
+      return;
+    }
 
     if (userIdFromData !== user.id) {
       setStatusData(null);

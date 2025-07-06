@@ -85,8 +85,8 @@ export default function Page() {
               </span>
 
               {/* Price */}
-              <div className="flex items-center space-x-1 text-xl font-bold text-gray-800">
-                <FaNairaSign className="text-gray-600" />
+              <div className="flex items-center space-x-1 text-3xl font-bold text-gray-800">
+                <FaNairaSign className="" />
                 <span>
                   {data?.acquiredProperty?.price
                     ? Number(data.acquiredProperty.price).toLocaleString()
@@ -96,7 +96,9 @@ export default function Page() {
 
               {/* Due Date */}
               <p className="text-xs text-red-500 font-medium">
-                Due date:{" "}
+                {payment?.next_payment_date &&
+                  <span>Due Date: </span>
+                }
                 {payment?.next_payment_date &&
                 !isNaN(new Date(payment.next_payment_date).getTime())
                   ? new Date(payment.next_payment_date).toLocaleString([], {
@@ -104,24 +106,9 @@ export default function Page() {
                       day: "2-digit", // Day with leading zero (e.g., "03")
                       year: "numeric", // Full year (e.g., "2025")
                     })
-                  : "N/A"}
+                  : " "}
               </p>
             </div>
-
-            {/* <div className="bg-white shadow-xl relative overflow-hidden shadow-gray-200 rounded-xl p-5 w-full sm:w-[48%] space-y-2">
-              <div className="absolute -right-5 top-10 text-gray-100 text-9xl">
-                <SiWebmoney />
-              </div>
-              <div className="text-5xl absolute right-5 top-5 text-sky-700">
-                {verified}
-              </div>
-              <p className="text-sm font-semibold text-sky-700">Rent Status</p>
-              <p className="text-[10px] p-[2px] rounded bg-green-400 text-white w-fit">Paid</p>
-              <p className="flex items-center text-2xl font-semibold">
-                <FaNairaSign /> 450,000
-              </p>
-              <p className="text-red-500 text-xs">Due date: August 20, 2025</p>
-            </div> */}
           </div>
           <div className="flex flex-col sm:flex-row justify-between gap-5">
             <div className="w-full sm:w-1/2 p-5 bg-white rounded-2xl shadow-xl shadow-gray-200">

@@ -4,31 +4,9 @@ import { LuTableProperties } from 'react-icons/lu'
 import { IoIosStats } from 'react-icons/io'
 import { MdBuildCircle, MdOutlinePeopleAlt } from 'react-icons/md';
 import { FaMoneyCheckDollar } from 'react-icons/fa6'
-import { AgentIssues, Properties, User } from './agentContext';
+import { AgentIssues, Payments, Properties, User } from './agentContext';
 import { useGetApplicationsQuery } from '@/app/api/general';
 import { ApplicationsType, userType } from '@/app/types';
-
-const paymentData = [
-  {
-    id: 1,
-    date: '2024-01-15',
-    property: 'Apartment 101',
-    reference: 'IND-2838-23823',
-    method: 'Bank Transfer',
-    tenant: 'John Doe',
-    amount: 'N1,200',
-  },
-  {
-    id: 2,
-    date: '2024-02-10',
-    property: 'Apartment 102',
-    reference: 'IND-2838-23823',
-    method: 'Card',
-    tenant: 'Jane Smith',
-    amount: 'N1,300',
-  },
-  // Add more rows as needed
-];
 
 export default function Agent() {
   const [propertyCount, setPropertyCount] = useState(0);
@@ -41,6 +19,7 @@ export default function Agent() {
   const { data: applications } = useGetApplicationsQuery(null);
   const [appCounts, setAppCounts] = useState(0)
   const user: userType | undefined = useContext(User);
+  const paymentData = useContext(Payments)
 
   useEffect(() => {
     if (applications?.data && user?.id) {
@@ -88,20 +67,18 @@ export default function Agent() {
 
     countNumber({ number: properties?.length || 0, category: 'property' });
     countNumber({ number: appCounts || 0, category: 'inquiries' });
-    countNumber({ number: 3, category: 'rents' });
+    countNumber({ number: 0, category: 'rents' });
     countNumber({ number: issues?.length || 0, category: 'maintenance' });
   }, [properties]);
 
   // Filter payment data
-  const filteredPayments = paymentData.filter(row => {
-    const q = search.toLowerCase();
+  const filteredPayments = paymentData && paymentData.filter((payment) => {
+    const searchLower = search.toLowerCase();
     return (
-      row.reference.toLowerCase().includes(q) ||
-      row.method.toLowerCase().includes(q) ||
-      row.amount.toLowerCase().includes(q) ||
-      row.property.toLowerCase().includes(q) ||
-      row.tenant.toLowerCase().includes(q) ||
-      row.date.toLowerCase().includes(q)
+      // payment.amount.toString().includes(searchLower) ||
+      payment.reference?.toLowerCase().includes(searchLower) ||
+      payment.method?.toLowerCase().includes(searchLower) ||
+      payment.status?.toLowerCase().includes(searchLower)
     );
   });
 
@@ -162,28 +139,39 @@ export default function Agent() {
                 <tr className='bg-gray-100'>
                   <th className='p-3 text-left'>#</th>
                   <th className='p-3 text-left'>Date</th>
-                  <th className='p-3 text-left'>Property</th>
                   <th className='p-3 text-left'>Payment Reference</th>
                   <th className='p-3 text-left'>Payment Method</th>
-                  <th className='p-3 text-left'>Tenant</th>
                   <th className='p-3 text-left'>Amount</th>
+                  <th className='p-3 text-left'>Customer Code</th>
+                  <th className='p-3 text-left'>Status</th>
+
                 </tr>
               </thead>
               <tbody>
-                {filteredPayments.length === 0 ? (
+                {filteredPayments && filteredPayments.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="text-center py-6 text-gray-400">No records found.</td>
                   </tr>
                 ) : (
-                  filteredPayments.map((row, idx) => (
+                 filteredPayments && filteredPayments.map((row, idx) => (
                     <tr key={idx}>
-                      <td className='p-3'>{row.id}</td>
-                      <td className='p-3'>{row.date}</td>
-                      <td className='p-3'>{row.property}</td>
+                      <td className='p-3'>{idx + 1}</td>
+                      <td className='p-3'>
+                         {row?.paid_at &&
+                          !isNaN(new Date(row.paid_at).getTime())
+                          ? new Date(row.paid_at).toLocaleString("en-US", {
+                            month: "long",
+                            day: "2-digit",
+                            year: "numeric",
+                            timeZone: "Africa/Lagos",
+                          })
+                          : "N/A"}
+                      </td>
                       <td className='p-3'>{row.reference}</td>
                       <td className='p-3'>{row.method}</td>
-                      <td className='p-3'>{row.tenant}</td>
-                      <td className='p-3'>{row.amount}</td>
+                      <td className='p-3'>₦{Number(row.amount).toLocaleString()}</td>
+                      <td className='p-3'>{row.customer_code}</td>
+                      <td className='p-3 text-green-600'>{row.status}</td>
                     </tr>
                   ))
                 )}

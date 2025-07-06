@@ -5,13 +5,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import {  FaPen } from 'react-icons/fa'
 import pp from '@/public/images/no-image.jpg'
 import Input from '@/components/input'
-import { useCreateAccountMutation } from '@/app/api/general'
+import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation'
 import Loading from '@/components/isloading'
 
 export default function Signup() {
-    const [submitData, { isLoading }] = useCreateAccountMutation();
+    const [loading, setLoading ] = useState(false);
     const route = useRouter();
     const fileInputRef = useRef<HTMLInputElement | null>(null)
     const [fileObj, setFileObj] = useState<File | null>(null)
@@ -26,6 +26,7 @@ export default function Signup() {
         last_name: '',
         password: '',
         confirm_password: '',
+        gender: 'male',
     });
 
         useEffect(() => {
@@ -68,6 +69,10 @@ export default function Signup() {
             [name]: value
         }))
     }
+    let token = Cookies.get("token")?.trim();
+         if(token){
+            token = token.replace(/^"|"$/g, "");
+         }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -108,17 +113,31 @@ export default function Signup() {
         createAccount.append('phone_number', formData.phone_number);
         createAccount.append('email', formData.email);
         createAccount.append('password', formData.confirm_password);
-        createAccount.append('role', 'tenant')
+        createAccount.append('gender', formData.gender);
+        createAccount.append('role', 'visitor')
         if(fileObj){
             createAccount.append('image', fileObj);
         }else{
             console.log("Image not captured!")
         }
 
-        try{
-            const res = await submitData(createAccount).unwrap();
+         const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api/";
 
-            if(await res){
+        try{
+            setLoading(true);
+                const res = await fetch(`${backendUrl}/auth/createAccount`, {
+                    method: 'POST', 
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    },
+                    body: createAccount, 
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+
+            if(res){
             toast.success('Account created Successfully!', {
                     position: "top-center",
                     autoClose: 5000,
@@ -145,8 +164,9 @@ export default function Signup() {
                 draggable: true,
                 theme: "dark",
             });
+        }finally{
+            setLoading(false)
         }
-
         // for (const [key, value] of createAccount.entries()){
         //     console.log(`${key}: `, value)
         // }
@@ -156,7 +176,7 @@ export default function Signup() {
         <ToastContainer />
         <Nav />
         <div className='flex justify-center items-center w-screen h-screen'>
-            <div className='sm:w-[40%] w-full sm:shadow-xl sm:shadow-gray-400 rounded-xl p-10 mt-36 '>
+            <div className='sm:w-[40%] w-full sm:shadow-xl sm:shadow-gray-400 rounded-xl p-10 mt-56 '>
                 {/* <FaAccusoft className='text-5xl' /> */}
                 <h2 className='text-2xl font-semibold'>Sign up</h2>
                 <h3 className='text-xs'>Stay connected with homes around you</h3>
@@ -226,6 +246,15 @@ export default function Signup() {
                             </div>
                         </div>
 
+                        <div className='w-full flex-col'>
+                            <label  className='text-sm font-semibold' htmlFor="gender">Gender</label>
+                            <br />
+                            <select className='border-gray-500 border-b mt-1 w-full' value={formData.gender} name="gender" onChange={e => handleChange({ name: "gender", value: e.target.value })}>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
                         <div className='sm:flex justify-between'>
                             <div className='sm:w-[47%]'>
                                 <Input label='Password' type={showPass ? 'text' : 'password'} placeholder='*********' value={formData.password} name='password' onChange={handleChange} />
@@ -241,8 +270,8 @@ export default function Signup() {
                         Show password
                     </div>
 
-                     <button disabled={isLoading} className='rounded-full bg-sky-700 p-3 mt-5 text-white text-center flex items-center justify-center w-full hover:cursor-pointer hover:animate-pulse'>
-                        { isLoading ? <Loading /> : 'Sign up' }
+                     <button disabled={loading} className='rounded-full bg-sky-700 p-3 mt-5 text-white text-center flex items-center justify-center w-full hover:cursor-pointer hover:animate-pulse'>
+                        { loading ? <Loading /> : 'Sign up' }
                     </button>
                 </form>
             </div>

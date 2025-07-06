@@ -362,6 +362,9 @@ export default function Messages() {
               </div>
             </li>
           ))}
+          {!agents?.length && !tenants?.length && (
+            <li className="text-center text-gray-300 py-4">No users available</li>
+          )}
         </ul>
       </div>
 

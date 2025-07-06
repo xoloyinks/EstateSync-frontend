@@ -2,17 +2,27 @@
 import AdminAreaChart from '@/components/adminAreaChart'
 import AdminBar from '@/components/adminBar'
 import AdminDoughnutChart from '@/components/adminDoughnutChart'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
-import { FaHouseUser, FaMoneyBillTrendUp } from 'react-icons/fa6'
+import { FaHouseUser, FaMoneyBillTrendUp, FaNairaSign } from 'react-icons/fa6'
 import { IoIosStats } from 'react-icons/io'
 import { MdRealEstateAgent } from 'react-icons/md'
-import { Agent, Property, Tenant } from './adminContext'
+import { Agent, Payment, Property, Tenant } from './adminContext'
+import { PaymentType } from '@/app/types'
 
 export default function Dashboard() {
   const agents = useContext(Agent);
   const tenants = useContext(Tenant);
   const properties = useContext(Property)
+  const payments: null | PaymentType[] = useContext(Payment);
+  const [amounts, setAmounts] = useState(0);
+
+    useEffect(() => {
+    if (payments && Array.isArray(payments)) {
+      const total = payments.reduce((sum, payment) => sum + Number(payment.amount), 0);
+      setAmounts(total);
+    }
+  }, [payments]);
 
   // If agents is an array, get the count; otherwise fallback to 0
   const totalAgents = Array.isArray(agents) ? agents.length : 0;
@@ -63,7 +73,7 @@ export default function Dashboard() {
               </div>
               <div className='h-12 w-12 min-w-[48px] bg-red-300 rounded-full text-white flex items-center justify-center border-2 border-red-200 inset-1'><FaMoneyBillTrendUp /></div>
               <div>
-                <h2 className='font-bold text-xl'>N200,000,000</h2>
+                <h2 className='font-bold text-xl flex items-center'><FaNairaSign />{amounts.toLocaleString()}</h2>
                 <p className='text-sm font-semibold'>Amount generated</p>
               </div>
           </div>

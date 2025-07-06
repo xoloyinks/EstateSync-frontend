@@ -125,9 +125,9 @@ export default function Agents() {
               </div>
 
               {/* Action Button */}
-              <button className="mt-auto bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-full font-semibold shadow-sm transition-transform transform hover:scale-105">
+              <Link  href={'/admin/messages'} className="mt-auto bg-sky-600 flex items-center justify-center hover:bg-sky-700 text-white px-4 py-2 rounded-full font-semibold shadow-sm transition-transform transform hover:scale-105">
                 Message Agent
-              </button>
+              </Link>
             </div>
           ))
         )}

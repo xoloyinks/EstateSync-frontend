@@ -1,38 +1,15 @@
 "use client";
-import React, { useState } from 'react'
+import { PaymentType } from '@/app/types';
+import React, { useContext, useState } from 'react'
 import { MdOutlinePayment } from 'react-icons/md';
+import { Payment } from '../adminContext';
 
-const paymentHistory = [
-  {
-    id: 1,
-    date: '2024-05-01',
-    amount: 120000,
-    method: 'Bank Transfer',
-    status: 'Successful',
-    reference: 'INV-20240501-001',
-  },
-  {
-    id: 2,
-    date: '2024-04-01',
-    amount: 120000,
-    method: 'Card',
-    status: 'Successful',
-    reference: 'INV-20240401-002',
-  },
-  {
-    id: 3,
-    date: '2024-03-01',
-    amount: 120000,
-    method: 'Bank Transfer',
-    status: 'Failed',
-    reference: 'INV-20240301-003',
-  },
-];
+
 
 export default function Payments() {
   const [search, setSearch] = useState('');
-
-  const filteredPayments = paymentHistory.filter(payment => {
+  const paymentHistory = useContext(Payment);
+  const filteredPayments = paymentHistory && paymentHistory?.filter((payment: PaymentType )  => {
     const searchLower = search.toLowerCase();
     return (
       payment.amount.toString().includes(searchLower) ||
@@ -68,31 +45,43 @@ export default function Payments() {
                     <th className="py-2 px-3 text-left">Amount</th>
                     <th className="py-2 px-3 text-left">Method</th>
                     <th className="py-2 px-3 text-left">Reference</th>
+                    <th className="py-2 px-3 text-left">Customer Code</th>
                     <th className="py-2 px-3 text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredPayments.length === 0 ? (
+                    {!filteredPayments ? (
                     <tr>
                         <td colSpan={6} className="text-center py-4 text-gray-400">
                         No payments found.
                         </td>
                     </tr>
                     ) : (
-                    filteredPayments.map((payment, idx) => (
+                    filteredPayments && filteredPayments.map((payment: PaymentType, idx: number) => (
                         <tr
-                        key={payment.id}
+                        key={idx}
                         className={`
                             ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'}
                             hover:bg-sky-100 transition-colors
                         `}
                         >
-                        <td className="py-2 px-3">{payment.id}</td>
-                        <td className="py-2 px-3">{payment.date}</td>
+                        <td className="py-2 px-3">{idx + 1}</td>
+                        <td className="py-2 px-3">
+                          {payment?.paid_at &&
+                            !isNaN(new Date(payment.paid_at).getTime())
+                              ? new Date(payment.paid_at).toLocaleString("en-US", {
+                                  month: "long",
+                                  day: "2-digit",
+                                  year: "numeric",
+                                  timeZone: "Africa/Lagos",
+                                })
+                            : "N/A"}
+                        </td>
                         <td className="py-2 px-3">₦{payment.amount.toLocaleString()}</td>
                         <td className="py-2 px-3">{payment.method}</td>
                         <td className="py-2 px-3">{payment.reference}</td>
-                        <td className={`py-2 px-3 font-semibold ${payment.status === 'Successful' ? 'text-green-600' : 'text-red-600'}`}>
+                        <td className="py-2 px-3">{payment.customer_code}</td>
+                        <td className={`py-2 px-3 font-semibold ${payment.status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
                             {payment.status}
                         </td>
                         </tr>

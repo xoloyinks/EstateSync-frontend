@@ -85,7 +85,12 @@ const generalApiSlice = apiSlice.injectEndpoints({
                 body: {...data}
             })
         }),
+        getAllPaymentHistories: builder.query({
+            query: () => ({
+                url: '/subscription/paymentHistory'
+            }),
+        })
     }),
     overrideExisting: true
 });
-export const { useLoginMutation, useCreateAccountMutation, useUpdateAccountMutation, useChangePasswordMutation, useGetIssuesQuery, useSumbitApplicationMutation, useGetApplicationQuery, useGetApplicationsQuery, useGetAdminQuery, useApproveApplicationMutation, useRejectApplicationMutation, useSubscribeMutation } = generalApiSlice;
+export const { useLoginMutation, useCreateAccountMutation, useUpdateAccountMutation, useChangePasswordMutation, useGetIssuesQuery, useSumbitApplicationMutation, useGetApplicationQuery, useGetApplicationsQuery, useGetAdminQuery, useApproveApplicationMutation, useRejectApplicationMutation, useSubscribeMutation, useGetAllPaymentHistoriesQuery } = generalApiSlice;

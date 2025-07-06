@@ -21,11 +21,11 @@ export type Navs = {
     icon: IconType
 }
 
-export default function AdminNav({ inView, onSlideIn, user }: { inView: boolean; onSlideIn: () => void, user: userType | undefined }) {
+export default function AdminNav({ inView, onSlideIn }: { inView: boolean; onSlideIn: () => void }) {
     const pathName = usePathname();
     const basePath = 'admin'
     const [active, setActive] = useContext(UserData);
-    const [userImage, setUserImage] = useState<string | undefined>('')
+    const [user, setUser] = useState<userType | undefined>(undefined)
 
     console.log(active)
     
@@ -105,8 +105,34 @@ export default function AdminNav({ inView, onSlideIn, user }: { inView: boolean;
     };
 
      useEffect(() => {
-          setUserImage(user?.image)
-      }, [user])
+      // Run once on mount to get the initial user data
+      const userString = Cookies.get('user');
+      if (userString) {
+        const parsedUser = JSON.parse(userString);
+        if (parsedUser) {
+          setUser(parsedUser);
+        }
+      }
+
+      // Optional: Set up interval to periodically check for cookie changes
+      const interval = setInterval(() => {
+        const newUserString = Cookies.get('user');
+        if (newUserString) {
+          const newParsedUser = JSON.parse(newUserString);
+          // Only update state if the user data has changed
+          setUser((prevUser) => {
+            if (JSON.stringify(prevUser) !== JSON.stringify(newParsedUser)) {
+              return newParsedUser;
+            }
+            return prevUser;
+          });
+        } else {
+          setUser(undefined); // Clear user if cookie is removed
+        }
+      }, 5000); // Check every 5 seconds (adjust as needed)
+
+      return () => clearInterval(interval); // Cleanup on unmount
+    }, []); // Empty dependency array to run only on mount
 
   return (
     <section
@@ -117,10 +143,10 @@ export default function AdminNav({ inView, onSlideIn, user }: { inView: boolean;
         <div className='flex flex-col gap-10'>
           <div className="w-full h-[65px] flex gap-2 text-black">
             <div className="w-[25%] h-full bg-gray-100 overflow-hidden rounded-full relative border-2 border-gray-300">
-              {user && userImage ? (
+              {user && user.image ? (
                 <img
                   alt="Profile Image"
-                  src={userImage}
+                  src={user.image || "https://www.citypng.com/public/uploads/preview/hd-man-user-illustration-icon-transparent-png-701751694974843ybexneueic.png"}
                   className="object-cover w-full h-full"
                 />
               ) : (

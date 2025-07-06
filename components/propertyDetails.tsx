@@ -202,7 +202,7 @@ export default function PropertyDetails() {
             <div>
               <h3 className="text-sm font-semibold">Price</h3>
               <p className="text-gray-700 flex items-center">
-                <TbCurrencyNaira /> {property?.price}
+                <TbCurrencyNaira /> {Number(property?.price).toLocaleString()}
               </p>
             </div>
             <div>
@@ -211,7 +211,7 @@ export default function PropertyDetails() {
             </div>
             <div>
               <h3 className="text-sm font-semibold">Bedrooms</h3>
-              <p className="text-gray-700">{property?.bedrooms}</p>
+              <p className="text-gray-700">{property?.bedrooms} Bedrooms</p>
             </div>
             <div>
               <h3 className="text-sm font-semibold">Mode</h3>

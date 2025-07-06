@@ -26,6 +26,7 @@ export default function UploadProperty() {
     bedrooms: '',
     price: '',
     mode: MODES[1],
+    interval: 'annually',
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [inputKey, setInputKey] = useState(0);
@@ -88,6 +89,7 @@ export default function UploadProperty() {
     formData.append('admin_email', email)
     formData.append('bedrooms', form.bedrooms);
     formData.append('description', form.description)
+    formData.append('interval', form.interval);
     form.images.forEach((file) => {
       formData.append('images', file);
     });
@@ -135,6 +137,8 @@ export default function UploadProperty() {
     }
 
   };
+
+  // console.log(form.interval)
 
   return (
     <div className="w-full sm:w-[70%] mt-12">
@@ -221,6 +225,20 @@ export default function UploadProperty() {
             required
           />
         </div>
+        <div>
+            <label className="text-sm font-semibold block mb-1" htmlFor="mode">Mode</label>
+            <select
+              name="mode"
+              value={form.mode}
+              onChange={e => handleChange(e.target)}
+              className="w-full border-b border-black py-2 focus:outline-none rounded"
+              required
+            >
+              {MODES.map(mode => (
+                <option key={mode} value={mode}>{mode}</option>
+              ))}
+            </select>
+          </div>
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Bedrooms"
@@ -230,32 +248,38 @@ export default function UploadProperty() {
             placeholder="e.g. 3"
             type="number"
           />
-          <Input
-            label="Price"
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-            placeholder="e.g. ₦2,500,000/year"
-            type="text"
-          />
+          <div className='flex sm:flex-row flex-col gap-2'>
+                <Input
+                  label="Price"
+                  name="price"
+                  value={form.price}
+                  onChange={handleChange}
+                  placeholder="e.g. ₦2,500,000/year"
+                  type="number"
+                />
+              {/* select interval (annually, monthly) when mode is set to rent */}
+              
+                {form.mode === "For Rent" && (
+                  <div className='text-sm font-semibold h-full'>
+                    <label htmlFor="interval" className=''>Interval</label>
+                    <select
+                      name="interval"
+                      value={form.interval || "annually"}
+                      onChange={e => handleChange(e.target)}
+                      className="w-full border-b border-black py-3 focus:outline-none rounded"
+                      required
+                    >
+                      <option value="annually">/ year</option>
+                      <option value="monthly">/ month</option>
+                    </select>
+                  </div>
+                )}
+          </div>
         </div>
-        <div>
-          <label className="text-sm font-semibold block mb-1" htmlFor="mode">Mode</label>
-          <select
-            name="mode"
-            value={form.mode}
-            onChange={e => handleChange(e.target)}
-            className="w-full border-b border-black py-2 focus:outline-none rounded"
-            required
-          >
-            {MODES.map(mode => (
-              <option key={mode} value={mode}>{mode}</option>
-            ))}
-          </select>
-        </div>
+        
         <button
           type="submit"
-          className="w-fit px-10 bg-gradient-to-r from-sky-700 to-sky-500 text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:from-sky-800 hover:to-sky-600 transition"
+          className="sm:w-[50%] flex justify-center items-center w-full px-10 bg-gradient-to-r from-sky-700 to-sky-500 text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:from-sky-800 hover:to-sky-600 transition"
         >
           { loading ? <Loading /> : "Upload Property" }
         </button>

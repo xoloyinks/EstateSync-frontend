@@ -58,6 +58,7 @@ export default function Inquiries() {
         status: app.status.toLowerCase(),
         code: app.code,
         proof: app.proof,
+        payment: app.payment,
         createdAt: new Date(app.createdAt),
       });
 
@@ -113,20 +114,22 @@ export default function Inquiries() {
       }
   }
 
+  console.log(filteredRequests)
+
   return (
-    <section className="p-6 max-w-7xl mx-auto">
+    <section className=" mx-auto">
       <ToastContainer />
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
         <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
           Client Inquiries
         </h2>
         <input
           type="search"
-          placeholder="Search by property..."
+          placeholder="🔍 Search by property..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full sm:w-80 px-4 py-2 rounded-xl shadow-md bg-white border border-gray-200 focus:ring-2 focus:ring-sky-600 outline-none"
+          className="w-full sm:w-[50%] px-4 py-2 rounded-xl shadow-md bg-white border border-gray-200 focus:ring-2 focus:ring-sky-600 outline-none placeholder:opacity-50"
         />
       </div>
 
@@ -150,14 +153,14 @@ export default function Inquiries() {
               {prop.clients.length} Client{prop.clients.length > 1 ? "s" : ""}
             </span>
 
-            <div className="divide-y divide-gray-100 max-h-80 overflow-y-auto mt-3">
+            <div className="divide-y divide-gray-300 h-fit sm:max-h-80 overflow-y-auto mt-3">
               {prop.clients.map((client) => (
                 <div
                   key={client.id}
                   className="flex justify-between items-center py-4 gap-4"
                 >
                   <div
-                    className="flex items-center gap-3 cursor-pointer"
+                    className="flex sm:flex-row flex-col sm:items-center gap-3 cursor-pointer"
                     onClick={() => setModalImg(client.avatar)}
                   >
                     <img
@@ -214,35 +217,25 @@ export default function Inquiries() {
                         </button>
                       </>
                     ) : (
-                      <div>
+                      <div className="flex-col text-sm">
                             <span
-                              className={`px-3 py-1 rounded-full text-sm font-medium ${
+                              className={`px-1 py-1 rounded-full text-[10px] font-bold ${
                                 client.status === "approved"
-                                  ? "bg-green-100 text-green-700"
+                                  ? "bg-green-400 text-green-700"
                                   : "bg-red-100 text-red-700"
                               }`}
                             >
-                              {client.status}
+                              {client.status.toUpperCase()}
                               
                             </span>
-                            <span className={`bg-`}>
+                            <br />
+                            <span className={`text-xs font-bold`}>
                               {client.payment === "paid"
                                 ? <span className="text-green-600 font-semibold">Payment: Paid</span>
-                                : <span className="text-red-600 font-semibold">Payment: Pending</span>
+                                : client.payment === "pending" ? <span className="text-red-600 font-semibold">Payment: Pending</span> 
+                                : " "
                               }
                             </span>
-                            { client.status !== 'rejected' && 
-                                <button 
-                                  disabled={rejectLoading}
-                                  onClick={() => handleStatus("rejected", client.code)}
-                                className="bg-red-500 text-white flex justify-center rounded-full w-26 text-xs p-2 hover:bg-red-600 cursor-pointer">
-                                  {
-                                    rejectLoading ? <Loading />
-                                    : "Disapprove"
-                                  }
-                                  
-                                </button>
-                              }
                       </div>
                       
                     )}
