@@ -27,8 +27,13 @@ const tenantApiSlice = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `/tenants/paymentHistory/${id}`
             })
+        }),
+        getTenantPaymentHistory: builder.query({
+            query: (id) => ({
+                url: `/tenants/paymentHistory/${id}`
+            })
         })
 
     })
 });
-export const { useGetTenantsQuery, useGetTenantIssuesQuery, useGetOneTenantQuery, useGetPaymentDetailsQuery, useLazyGetPaymentHistoryQuery } = tenantApiSlice;
+export const { useGetTenantsQuery, useGetTenantIssuesQuery, useGetOneTenantQuery, useGetPaymentDetailsQuery, useLazyGetPaymentHistoryQuery, useGetTenantPaymentHistoryQuery } = tenantApiSlice;

@@ -1,5 +1,5 @@
 "use client";
-import { useGetOneTenantQuery, useGetPaymentDetailsQuery, useGetPaymentHistoryQuery, useGetTenantIssuesQuery } from '@/app/api/tenants';
+import { useGetOneTenantQuery, useGetPaymentDetailsQuery, useGetTenantPaymentHistoryQuery, useGetTenantIssuesQuery } from '@/app/api/tenants';
 import { issuesType, PaymentType, tenantsType, userType } from '@/app/types';
 import React, { createContext, useEffect, useMemo, useState } from 'react';
 import Cookies from 'js-cookie';
@@ -31,7 +31,7 @@ export default function TenantData({ children }: { children: React.ReactNode }):
   const { data: paymentData, isLoading: paymentLoading } = useGetPaymentDetailsQuery(id, {
     skip: !id
   })
-  const { data: paymentHistoryData, isLoading: paymentHistoryLoading } = useGetPaymentHistoryQuery(id, {
+  const { data: paymentHistoryData, isLoading: paymentHistoryLoading } = useGetTenantPaymentHistoryQuery(id, {
     skip: !id
   });
   const [issues, setIssues] = useState<issuesType[] | null>(null);
