@@ -51,13 +51,13 @@ export default function Banner() {
         <div className='w-screen h-screen absolute bg-black/70 left-0 sm:hidden '></div>
 
 
-        <div className='flex flex-col h-full justify-center gap-10 sm:gap-16 absolute not-sm:w-full z-40 not-sm:text-white'>
+        <div className='flex flex-col h-full justify-center gap-10 sm:gap-16 absolute not-sm:w-[96%] z-40 not-sm:text-white'>
             <div className='text-sm flex sm:flex-row flex-col items-center'>
                 <img 
                     src={'/images/house-sticker.jpg'}
                     className='w-20 h-20 not-sm:rounded-full'
                 />
-                <p className='font-semibold not-sm:text-center'>
+                <p className='font-semibold not-sm:text-center not-sm:mt-5'>
                     Discover the perfect bond of luxury <br /> and comfort in your new home.
                 </p>
             </div>
