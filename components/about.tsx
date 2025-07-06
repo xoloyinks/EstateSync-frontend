@@ -28,11 +28,11 @@ export default function About() {
             We&apos;re committed to simplifying processes, improving tenant-supervisor relationships, and offering a secure and user-friendly experience that evolves with the dynamic needs of property management.
           </p>
           <div className="flex gap-2 sm:gap-5 mt-4">
-            <div className="border-4 border-gray-300 bg-white rounded-full w-28 h-28 sm:w-36 sm:h-36 flex items-center flex-col justify-center">
+            <div className="border-4 border-gray-300 bg-white rounded-full w-32 h-32 sm:w-36 sm:h-36 flex items-center flex-col justify-center">
               <p className="text-xl sm:text-2xl font-semibold">4+</p>
               <p className="text-xs">Industry Years</p>
             </div>
-            <div className="border-4 border-gray-300 bg-white rounded-full w-28 h-28 sm:w-36 sm:h-36 flex items-center flex-col justify-center -translate-x-6 sm:-translate-x-12">
+            <div className="border-4 border-gray-300 bg-white rounded-full w-32 h-32 sm:w-36 sm:h-36 flex items-center flex-col justify-center -translate-x-6 sm:-translate-x-12">
               <p className="text-xl sm:text-2xl font-semibold">10+</p>
               <p className="text-xs">Awards & Honors</p>
             </div>

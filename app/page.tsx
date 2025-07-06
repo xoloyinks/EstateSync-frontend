@@ -12,8 +12,8 @@ export default function Home(){
   return (
    <section className="w-screen overflow-x-hidden relative">
       <Nav />
-      <Banner /><Aesthetic size="text-[200px] sm:text-[400px]" position="left-[20%] top-20" />
-      <About /><Aesthetic size="sm:text-[400px] text-[200px] " position="left-[10%] top-[600px]" />
+      <Banner /><Aesthetic size="text-[200px] sm:text-[400px] not-sm:hidden" position="left-[20%] top-20" />
+      <About /><Aesthetic size="sm:text-[400px] text-[200px] not-sm:hidden" position="left-[10%] top-[600px]" />
       <Plan />
       <Testimonial />
       <Footer />
