@@ -75,6 +75,18 @@ export default function AddAgent() {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      if(!form.imageUrl){
+        toast.error('Image is required', {
+           position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        })
+        return;
+      }
       let token = Cookies.get("token")?.trim();
       if (token) {
         token = token.replace(/^"|"$/g, "");
@@ -116,6 +128,7 @@ export default function AddAgent() {
         });
 
         if (!res.ok) {
+          console.log(res)
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
@@ -145,7 +158,19 @@ export default function AddAgent() {
         if (fileInputRef.current) fileInputRef.current.value = "";
       } catch (error) {
         console.error("Error adding agent:", error);
-        toast.error("Failed to add agent", {
+         let errorMessage = "An error occurred";
+        if (
+          error &&
+          typeof error === "object" &&
+          "data" in error &&
+          error.data &&
+          typeof error.data === "object" &&
+          "message" in error.data &&
+          typeof error.data.message === "string"
+        ) {
+          errorMessage = error.data.message;
+        }
+        toast.error(`${errorMessage}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
