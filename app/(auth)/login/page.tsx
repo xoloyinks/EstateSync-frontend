@@ -37,18 +37,30 @@ export default function Login() {
     }, [active]);
 
     useEffect(() => {
-      if(isError){
-          toast.error(`Login failed! Check details and make sure the Internet is connected`, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              theme: "dark",
-            });
+      if (isError) {
+        let errorMessage = "An error occurred";
+        if (
+          error &&
+          typeof error === "object" &&
+          "data" in error &&
+          error.data &&
+          typeof error.data === "object" &&
+          "message" in error.data &&
+          typeof error.data.message === "string"
+        ) {
+          errorMessage = error.data.message;
+        }
+        toast.error(errorMessage, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
       }
-    }, [isError])
+    }, [isError, error]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -83,7 +95,7 @@ export default function Login() {
                     
             }
         }catch(err){
-            console.error("Error during login:", error);
+            console.error("Error during login:", err);
         }
        
     }
