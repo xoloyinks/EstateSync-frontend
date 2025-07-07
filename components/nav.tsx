@@ -103,7 +103,7 @@ export default function Nav() {
           >
             <ul className="py-2">
               <li className="px-4 py-2 hover:bg-gray-100 ">
-                <a href="" className="block text-gray-800 ">
+                <a href="#footer" className="block text-gray-800 ">
                   Contact us
                 </a>
               </li>

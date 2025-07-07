@@ -52,7 +52,8 @@ export default function Banner() {
 
 
         <div className='flex flex-col h-full justify-center gap-10 sm:gap-16 absolute not-sm:w-[96%] z-40 not-sm:text-white'>
-            <div className='text-sm flex sm:flex-row flex-col items-center'>
+            <div 
+            className='text-sm flex sm:flex-row flex-col items-center'>
                 <img 
                     src={'/images/house-sticker.jpg'}
                     className='w-20 h-20 not-sm:rounded-full'

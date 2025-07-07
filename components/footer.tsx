@@ -4,7 +4,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 
 export default function Footer() {
   return (
-    <section className="bg-gray-950 text-white py-8 sm:py-16 px-4 sm:px-20 space-y-12">
+    <section id="footer" className="bg-gray-950 text-white py-8 sm:py-16 px-4 sm:px-20 space-y-12">
       {/* Logo & Headline */}
       <div className="text-center sm:text-left">
         <FaAccusoft className="text-4xl sm:text-6xl mx-auto sm:mx-0" />

@@ -7,7 +7,9 @@ body{
     width: 100vw;
     overflow-x: hidden;
 }
-
+html{
+    scroll-behavior: smooth;
+}
 .custom-bullet-active{
     background-color: white  !important;
     width: 25px !important;

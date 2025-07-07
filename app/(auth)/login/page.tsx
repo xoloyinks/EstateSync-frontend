@@ -15,7 +15,7 @@ type FormData = {
 }
 
 export default function Login() {
-   const [submitData, { isLoading }] = useLoginMutation();
+   const [submitData, { isLoading, isError, error }] = useLoginMutation();
    const [ active, setActive ] = useContext(UserData);
     const [formData, setFormData] = useState({
       email: '',
@@ -35,6 +35,20 @@ export default function Login() {
           return; 
         }
     }, [active]);
+
+    useEffect(() => {
+      if(isError){
+          toast.error(`Login failed! Check details and make sure the Internet is connected`, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "dark",
+            });
+      }
+    }, [isError])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -67,22 +81,9 @@ export default function Login() {
                       window.location.href = '/properties'
                     }
                     
-                    // setTimeout(() => {
-                    //   window.location.href = '/';
-                    // }, 500);
-                    
             }
         }catch(err){
-            console.error("Error during login:", err);
-            toast.error(`Login failed`, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              theme: "dark",
-            });
+            console.error("Error during login:", error);
         }
        
     }
