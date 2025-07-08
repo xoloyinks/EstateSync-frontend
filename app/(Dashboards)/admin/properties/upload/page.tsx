@@ -79,7 +79,7 @@ export default function UploadProperty() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData: FormData = new FormData();
-    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api/";
+    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api";
     
     formData.append('title', form.title);
     formData.append('location', form.location);
@@ -252,7 +252,7 @@ export default function UploadProperty() {
                 <Input
                   label="Price"
                   name="price"
-                  value={form.price}
+                  value={Number(form.price).toLocaleString()}
                   onChange={handleChange}
                   placeholder="e.g. ₦2,500,000/year"
                   type="number"
