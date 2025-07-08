@@ -252,7 +252,7 @@ export default function UploadProperty() {
                 <Input
                   label="Price"
                   name="price"
-                  value={Number(form.price).toLocaleString()}
+                  value={form.price}
                   onChange={handleChange}
                   placeholder="e.g. ₦2,500,000/year"
                   type="number"
