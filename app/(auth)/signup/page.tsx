@@ -121,7 +121,7 @@ export default function Signup() {
             console.log("Image not captured!")
         }
 
-         const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api/";
+         const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : process.env.NEXT_PUBLIC_RENDER_BACKEND_URL;
 
         try{
             setLoading(true);
