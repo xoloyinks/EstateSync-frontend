@@ -279,7 +279,21 @@ export default function UploadProperty() {
         
         <button
           type="submit"
-          className="sm:w-[50%] flex justify-center items-center w-full px-10 bg-gradient-to-r from-sky-700 to-sky-500 text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:from-sky-800 hover:to-sky-600 transition"
+          onClick={() => {
+            if (form.images.length === 0) {
+              toast.error('Please select at least one image', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+              });
+            }}
+          }
+          disabled={loading}
+          className={`sm:w-[50%] ${loading ? 'opacity-50' : 'opacity-100'} flex justify-center items-center w-full px-10 bg-gradient-to-r from-sky-700 to-sky-500 text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:from-sky-800 hover:to-sky-600 transition`}
         >
           { loading ? <Loading /> : "Upload Property" }
         </button>
