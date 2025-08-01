@@ -79,7 +79,7 @@ export default function UploadProperty() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData: FormData = new FormData();
-    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  process.env.NEXT_PUBLIC_BACKEND_URL : "https://estatesync-uhkn.onrender.com/api";
+    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  'http://localhost:3000' : process.env.NEXT_PUBLIC_BACKEND_URL;
     
     formData.append('title', form.title);
     formData.append('location', form.location);
@@ -123,7 +123,7 @@ export default function UploadProperty() {
 
     } catch (error) {
       console.error('Error uploading Property:', error);
-      toast.error('Failed to uploading Property', {
+      toast.error('Failed to upload Property', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
