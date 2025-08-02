@@ -25,6 +25,7 @@ export interface PropertyType {
   description: string;
   mode: string; 
   acquired?: userType,
+  role?: string,
   planCode?: string, // Optional field for plan code
 }
 

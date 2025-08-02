@@ -11,14 +11,15 @@ import 'swiper/css';
 import 'swiper/css/effect-cards';
 import Image from 'next/image';
 import { HiMiniHomeModern } from "react-icons/hi2";
-import { FaMapPin } from 'react-icons/fa6';
+import { FaMapPin, FaTrash } from 'react-icons/fa6';
 import { FaUserTie } from 'react-icons/fa';
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation';
 import { PropertyType, userType } from '@/app/types';
 import { TbCurrencyNaira } from "react-icons/tb";
+import { toast } from 'react-toastify';
 
-export default function Property({ images, description, price, location, bedrooms, agent, title, mode, id, acquired }: PropertyType) {
+export default function Property({ images, description, price, location, bedrooms, agent, title, mode, id, acquired, role }: PropertyType) {
   const pathName = usePathname();
   const isAgentUrl = pathName.includes('/agent');
   const isAdminUrl = pathName.includes('/admin');
@@ -37,13 +38,61 @@ export default function Property({ images, description, price, location, bedroom
       route.push('/properties/details');
     }
   }
+
+   let token = Cookies.get("token")?.trim();
+     if(token){
+        token = token.replace(/^"|"$/g, "");
+     }
+
+  const handleDelete = async () => {
+    if (confirm(`Are you sure you want to delete the ${title} property?`)) {
+      const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  'http://localhost:3001/api' : process.env.NEXT_PUBLIC_BACKEND_URL;
+      try {
+        if (!token) {
+          alert('You are not authorized to delete this property');
+          return;
+        }
+
+        const res = await fetch(`${backendUrl}/properties/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+          console.log('Profile deleted successfully:', data);
+              toast.success(`${title} Deleted!`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+              
+    }catch(error){
+        console.error('Error deleting property:', error);
+        alert('An error occurred while deleting the property');
+        return;
+    }
+  }
+}
+
   return (
-    <div className='w-[24%] not-sm:w-[90%] not-sm:mx-auto min-w-[350px] h-[500px] rounded-2xl shadow-2xl shadow-gray-400 overflow-hidden hover:scale-105 transition-all ease-in-out hover:shadow-gray-600 border-gray-500'>
-           
+    <div className=' not-sm:w-[90%] not-sm:mx-auto w-[350px] h-[500px] rounded-2xl shadow-2xl shadow-gray-400 overflow-hidden hover:scale-105 transition-all ease-in-out hover:shadow-gray-600 border-gray-500'>
         <div className='w-full h-[300px] relative overflow-hidden'>
-           {/* <button className='bg-black/10 absolute top-5 right-5 p-3 rounded-full z-20'>
-              <FaHeart className='text-white' />
-            </button> */}
+           {role === 'admin' && 
+            <button onClick={() => handleDelete()} className='bg-black/10 absolute top-5 right-5 p-3 rounded-full z-20'>
+              <FaTrash className='text-red-300 hover:text-red-500' />
+            </button>}
             <Swiper
                       spaceBetween={0}
                       modules={[Autoplay, Pagination, Navigation]} 

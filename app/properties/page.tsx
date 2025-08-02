@@ -6,6 +6,8 @@ import Footer from '@/components/footer';
 import React, { useEffect, useState } from 'react';
 import Loading from '@/components/isloading';
 import { PropertyType } from '../types';
+import Cookies from 'js-cookie';
+import { ToastContainer } from 'react-toastify';
 
 const PROPERTIES_PER_PAGE = 6;
 
@@ -16,6 +18,7 @@ const Properties: React.FC = () => {
   const [paginatedProperties, setPaginatedProperties] = useState<PropertyType[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
   const { data, isLoading } = useGetPropertiesQuery([]);
+  const user = JSON.parse(Cookies.get('user') || '{}');
 
   console.log(filteredProperties)
 
@@ -54,10 +57,11 @@ const Properties: React.FC = () => {
 
   return (
     <section className="relative bg-gray-50 min-h-screen">
+      <ToastContainer />
       <Nav />
       <div className="px-4 sm:px-16 lg:px-44 border-2 border-black py-22 sm:py-32">
         <div className="flex flex-col sm:flex-row justify-between gap-4 mb-10">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800">
+          <h1 className="text-3xl sm:text-3xl font-bold text-gray-800">
             Explore Properties
           </h1>
           <div className="relative w-full sm:w-1/2">
@@ -110,6 +114,7 @@ const Properties: React.FC = () => {
               bedrooms={prop.bedrooms}
               price={prop.price}
               description={prop.description}
+              role = {user?.role}
               mode={prop.mode}
               id={prop.id}
             />

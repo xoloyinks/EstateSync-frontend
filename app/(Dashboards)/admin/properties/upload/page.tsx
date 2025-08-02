@@ -79,7 +79,7 @@ export default function UploadProperty() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData: FormData = new FormData();
-    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  'http://localhost:3000' : process.env.NEXT_PUBLIC_BACKEND_URL;
+    const backendUrl = process.env.NEXT_PUBLIC_NODE_ENV === "development" ?  'http://localhost:3001/api' : process.env.NEXT_PUBLIC_BACKEND_URL;
     
     formData.append('title', form.title);
     formData.append('location', form.location);
@@ -120,6 +120,11 @@ export default function UploadProperty() {
         draggable: true,
         theme: "dark",
       });
+
+      // take to properties page
+      setTimeout(() => {
+        window.location.href = '/admin/properties';
+      }, 1000);
 
     } catch (error) {
       console.error('Error uploading Property:', error);

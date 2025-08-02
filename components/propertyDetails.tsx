@@ -14,6 +14,7 @@ import { TbCurrencyNaira } from "react-icons/tb";
 import { PropertyType, userType } from "@/app/types";
 import Loading from "./isloading";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const pp = "https://www.citypng.com/public/uploads/preview/hd-man-user-illustration-icon-transparent-png-701751694974843ybexneueic.png";
 
@@ -26,6 +27,7 @@ export default function PropertyDetails() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
 
   const x = Cookies.get("user");
   let user: userType | undefined;
@@ -268,7 +270,7 @@ export default function PropertyDetails() {
               </p>
             ) : role === 'agent' && !property?.acquired ? '' :
             (
-              <button className="px-5 py-2 bg-sky-700 text-white text-sm rounded">Message</button>
+              <button onClick={() => router.push('/admin/messages')} className="px-5 py-2 bg-sky-700 text-white text-sm rounded">Message</button>
             )}
           </div>
         </div>

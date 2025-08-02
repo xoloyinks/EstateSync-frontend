@@ -3,6 +3,8 @@ import { useGetPropertiesQuery } from '@/app/api/properties';
 import { PropertyType } from '@/app/types';
 import Property from '@/components/property';
 import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { ToastContainer } from 'react-toastify';
 
 
 const PROPERTIES_PER_PAGE = 6;
@@ -14,6 +16,7 @@ export default function Properties() {
   const [paginatedProperties, setPaginatedProperties] = useState<PropertyType[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const { data, isLoading } = useGetPropertiesQuery([]);
+  const user = JSON.parse(Cookies.get('user') || '{}');
 
   console.log(filteredProperties);
 
@@ -56,6 +59,7 @@ export default function Properties() {
 
   return (
     <section className='relative'>
+      <ToastContainer />
       <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
         <h1 className='text-2xl text-left sm:text-4xl font-bold w-full'>Properties</h1>
         <input
@@ -83,6 +87,7 @@ export default function Properties() {
             price={prop.price}
             description={prop.description}
             mode={prop.mode}
+            role={user?.role}
             id={prop.id}
           />
         ))}
