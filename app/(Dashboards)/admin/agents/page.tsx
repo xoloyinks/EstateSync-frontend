@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Agent } from '@/app/(Dashboards)/admin/adminContext';
 import { useGetPropertyQuery } from '@/app/api/properties';
 import Loading from '@/components/isloading';
-import { agentType, PropertyType, userType } from '@/app/types';
+import { agentType, PropertyType } from '@/app/types';
 
 
 const AgentProperties = ({ id }: { id: string }) => {

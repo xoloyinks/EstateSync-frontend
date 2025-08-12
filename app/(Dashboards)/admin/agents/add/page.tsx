@@ -56,18 +56,6 @@ export default function AddAgent() {
     [form.imageUrl]
   );
 
-  const handlePropertyChange = useCallback(
-    (propId: string, checked: boolean) => {
-      setForm((prev) => ({
-        ...prev,
-        properties: checked
-          ? [...prev.properties, propId]
-          : prev.properties.filter((id) => id !== propId),
-      }));
-    },
-    []
-  );
-
   const handleImageClick = useCallback(() => {
     fileInputRef.current?.click();
   }, []);
