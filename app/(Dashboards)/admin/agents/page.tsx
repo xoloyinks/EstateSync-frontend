@@ -6,24 +6,10 @@ import { useGetPropertyQuery } from '@/app/api/properties';
 import Loading from '@/components/isloading';
 import { agentType, PropertyType, userType } from '@/app/types';
 
-export type Property = {
-  title: string;
-  description: string;
-  price: string;
-  location: string;
-  agent: userType;
-  mode: string;
-  bedrooms: string;
-  createdAt: Date;
-  __v: number;
-  images: string[];
-  _id: string;
-  acquired?: string
-};
 
 const AgentProperties = ({ id }: { id: string }) => {
   const { data, isLoading } = useGetPropertyQuery(id);
-  const [property, setProperty] = useState<Property | null>(null);
+  const [property, setProperty] = useState<PropertyType | null>(null);
 
   useEffect(() => {
     if (data) {
@@ -32,12 +18,10 @@ const AgentProperties = ({ id }: { id: string }) => {
   }, [data]);
 
   return (
-    <li className="text-gray-600 transition-colors">
+    <li className="text-gray-600 transition-colors text-xs bg-gray-100  p-2 rounded-xl">
       {isLoading && <Loading />}
       {property && (
-        // <Link href={`/properties/${property._id}`} className="block truncate">
           property.title
-        // </Link>
       )}
     </li>
   );
@@ -116,11 +100,14 @@ export default function Agents() {
 
               {/* Properties Managed */}
               <div>
-                <h4 className="font-semibold text-sky-700 text-sm mb-2">Properties Managed</h4>
-                <ul className="list-disc list-inside text-gray-600 text-sm space-y-1 max-h-24 overflow-y-auto">
+                <h4 className="font-semibold text-sky-700 text-sm mb-2">Properties Managed ({agent.assignedProperties.length})</h4>
+                <ul className="list-disc list-inside text-gray-600 text-sm space-y-2 max-h-24 overflow-y-auto">
                   {agent.assignedProperties.map((prop: PropertyType, idx) => (
                     <AgentProperties id={prop.id} key={idx} />
                   ))}
+                  {agent.assignedProperties.length === 0 && (
+                    <li className="text-gray-500">No properties assigned</li>
+                  )}
                 </ul>
               </div>
 

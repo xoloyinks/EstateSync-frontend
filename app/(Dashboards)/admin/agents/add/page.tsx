@@ -1,10 +1,10 @@
 "use client";
-import React, { useContext, useRef, useState, useCallback } from "react";
-import { Property } from "../../adminContext";
+import React, { useRef, useState, useCallback } from "react";
+// import { Property } from "../../adminContext";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import Loading from "@/components/isloading";
-import { PropertyType } from "@/app/types";
+// import { PropertyType } from "@/app/types";
 
 interface FormData {
   image: File | null;
@@ -19,7 +19,7 @@ interface FormData {
 }
 
 export default function AddAgent() {
-  const properties: PropertyType[] | null = useContext(Property);
+  // const properties: PropertyType[] | null = useContext(Property);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<FormData>({
     image: null,
@@ -106,13 +106,26 @@ export default function AddAgent() {
         return;
       }
 
+      // if(!form.properties || form.properties.length === 0) {
+      //   toast.error("Please assign at least one property", {
+      //     position: "top-center",
+      //     autoClose: 5000,
+      //     hideProgressBar: false,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     theme: "dark",
+      //   });
+      //   return;
+      // }
+
       const formData = new FormData();
       formData.append("first_name", form.firstName);
       formData.append("last_name", form.lastName);
       formData.append("email", form.email);
       formData.append("password", form.password);
       if (form.image) formData.append("image", form.image);
-      formData.append("properties", JSON.stringify(form.properties));
+      // formData.append("properties", JSON.stringify(form.properties));
       formData.append("role", "agent");
       formData.append("phone_number", form.phone_number);
       formData.append("gender", form.gender);
@@ -127,11 +140,30 @@ export default function AddAgent() {
           body: formData,
         });
 
-        if (!res.ok) {
-          console.log(res)
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        console.log("first")
 
+      if (!res.ok) {
+        let errorMsg = `HTTP error! status: ${res.status}`;
+        try {
+          const errorData = await res.json();
+          if (errorData && errorData.message) {
+            errorMsg = `${errorData.message}`;
+          }
+        } catch {
+          // ignore JSON parse errors
+        }
+        console.log(errorMsg);
+        toast.error(errorMsg, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+        throw new Error(errorMsg);
+      }
 
         toast.success("Agent added successfully!", {
           position: "top-center",
@@ -158,27 +190,6 @@ export default function AddAgent() {
         if (fileInputRef.current) fileInputRef.current.value = "";
       } catch (error) {
         console.error("Error adding agent:", error);
-         let errorMessage = "An error occurred";
-        if (
-          error &&
-          typeof error === "object" &&
-          "data" in error &&
-          error.data &&
-          typeof error.data === "object" &&
-          "message" in error.data &&
-          typeof error.data.message === "string"
-        ) {
-          errorMessage = error.data.message;
-        }
-        toast.error(`${errorMessage}`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark",
-        });
       } finally {
         setLoading(false);
       }
@@ -332,7 +343,7 @@ export default function AddAgent() {
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Assign Properties
             </label>
@@ -361,7 +372,7 @@ export default function AddAgent() {
             <span className="text-xs text-gray-500 mt-1 block">
               Select one or more properties
             </span>
-          </div>
+          </div> */}
 
           <button
             type="submit"

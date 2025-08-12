@@ -325,7 +325,7 @@ export default function Messages() {
         `}
       >
         <h2 className="text-2xl font-semibold px-6 py-4 border-b border-sky-800">Messages</h2>
-        <ul className="flex-1 overflow-y-auto">
+        <ul className="flex-1 overflow-y-auto text-sm">
           {agents?.map((agent: agentType, index: number) => (
             <li
               key={`agent-${index}`}
