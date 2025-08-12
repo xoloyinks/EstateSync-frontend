@@ -140,7 +140,6 @@ export default function UploadProperty() {
     } finally {
         setLoading(false);
     }
-
   };
 
   // console.log(form.interval)
