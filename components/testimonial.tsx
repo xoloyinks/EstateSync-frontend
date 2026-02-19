@@ -1,7 +1,6 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
 import { RiDoubleQuotesL } from "react-icons/ri";
-import Aesthetic from "./aesthetic";
 
 const testimonials = [
   {

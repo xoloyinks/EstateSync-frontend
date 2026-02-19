@@ -1,5 +1,4 @@
 import About from "@/components/about";
-import Aesthetic from "@/components/aesthetic";
 import Banner from "@/components/banner";
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
