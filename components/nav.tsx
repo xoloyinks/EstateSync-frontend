@@ -64,7 +64,7 @@ export default function Nav() {
     }
 
   return (
-    <section className={`w-full p-3 sm:px-20 sm:py-8 flex justify-between items-center fixed left-0 z-50 ${isScrolled ? 'bg-slate-900 text-white shadow-sm shadow-gray-800': 'bg-transparent'}`}>
+    <section className={`w-full p-3 text-gray-500 sm:px-20 sm:py-8 flex justify-between items-center fixed left-0 z-50 ${isScrolled ? 'bg-slate-900 shadow-sm shadow-gray-800': 'bg-transparent'}`}>
         <Link href='/' className='max-sm:text-[1.2rem] text-2xl font-bold flex items-center gap-2'>
             <FaAccusoft className='text-5xl' />
             <span>EstateSync</span>

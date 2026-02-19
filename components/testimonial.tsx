@@ -1,59 +1,78 @@
-import React from 'react'
-import { FaStar } from 'react-icons/fa'
-import { RiDoubleQuotesL } from 'react-icons/ri'
-import Aesthetic from './aesthetic'
+import React from "react";
+import { FaStar } from "react-icons/fa";
+import { RiDoubleQuotesL } from "react-icons/ri";
+import Aesthetic from "./aesthetic";
+
+const testimonials = [
+  {
+    name: "Benjamin",
+    text: "We couldn’t be happier with the service. The team made everything seamless and stress free. Highly recommended!",
+  },
+  {
+    name: "Sophia",
+    text: "Professional, transparent and incredibly smooth experience from start to finish.",
+  },
+  {
+    name: "Daniel",
+    text: "They helped us find a home that truly fits our lifestyle. Exceptional service.",
+  },
+  {
+    name: "Amara",
+    text: "Attention to detail and communication were outstanding throughout the process.",
+  },
+];
 
 export default function Testimonial() {
   return (
-    <section className="sm:px-20 sm:py-10 p-3 space-y-20 relative h-fit border overflow-x-hidden">
-      <Aesthetic size="sm:text-[400px] text-[200px] not-sm:hidden" position="-left-[10%] bottom-[0px]" />
-      <h2 className="text-4xl font-bold">
-        WHAT OUR <br /> <span className="text-5xl">CLIENTS</span> ARE SAYING
-      </h2>
-      <div className="absolute text-gray-200 text-center not-sm:top-38 text-4xl sm:text-8xl font-bold w-full pointer-events-none select-none">
-        Our Clients Voices
+    <section className="relative overflow-hidden bg-neutral-950 text-white py-24 px-6 sm:px-12 lg:px-20">
+      {/* Heading */}
+      <div className="max-w-6xl mx-auto mb-20 relative z-10">
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-[-0.02em]">
+          What Our Clients
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400">
+            Are Saying
+          </span>
+        </h2>
       </div>
-      {/* Responsive testimonials */}
-      <div className="flex flex-col md:flex-row justify-evenly z-10 gap-10 md:gap-0">
-        {/* Column 1 */}
-        <div className="w-full md:w-[40%] space-y-10 flex flex-col items-center">
-          <div className="sm:border-4 border-gray-300 p-5 rounded-4xl not-sm:shadow-2xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
-            <RiDoubleQuotesL className="text-4xl mx-auto" />
-            <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
-            <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
-              <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+
+      {/* Testimonials grid */}
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 relative z-10">
+
+        {testimonials.map((item, i) => (
+          <div
+            key={i}
+            className={`
+              relative p-8 rounded-3xl
+              backdrop-blur-2xl
+              bg-gradient-to-br from-white/15 via-white/10 to-white/5
+              border border-white/20
+              shadow-[0_25px_60px_rgba(0,0,0,0.45)]
+              transition duration-500
+              hover:translate-y-[-6px]
+              ${i % 2 !== 0 ? "md:translate-y-12" : ""}
+            `}
+          >
+            {/* glass highlight */}
+            <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/10 via-transparent to-transparent" />
+
+            <RiDoubleQuotesL className="text-3xl text-purple-300 mb-6" />
+
+            <p className="text-neutral-200 leading-relaxed mb-8">
+              {item.text}
             </p>
+
+            <div className="flex items-center justify-between">
+              <p className="font-semibold text-lg">{item.name}</p>
+
+              <div className="flex gap-1 text-yellow-400">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <FaStar key={idx} />
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="sm:border-4 border-gray-300 p-5 rounded-4xl not-sm:shadow-2xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
-            <RiDoubleQuotesL className="text-4xl mx-auto" />
-            <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
-            <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
-              <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-            </p>
-          </div>
-        </div>
-        {/* Column 2 */}
-        <div className="w-full md:w-[40%] space-y-10 flex flex-col items-center md:translate-y-10">
-          <div className="sm:border-4 border-gray-300 p-5 rounded-4xl not-sm:shadow-2xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
-            <RiDoubleQuotesL className="text-4xl mx-auto" />
-            <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
-            <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
-              <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-            </p>
-          </div>
-          <div className="sm:border-4 border-gray-300 p-5 rounded-4xl not-sm:shadow-2xl sm:rounded-full backdrop-blur-sm space-y-5 h-[340px] sm:h-[400px] flex flex-col items-center justify-center w-[90%] sm:w-[70%] md:w-[50%] text-center bg-white/60">
-            <RiDoubleQuotesL className="text-4xl mx-auto" />
-            <p className="text-2xl font-semibold">BENJAMIN</p>
-            <p className="text-sm">We couldn&apos;t be happier with the service. The team made everything seamless and stress free. Highly recommended!</p>
-            <p className="text-yellow-400 flex gap-2 justify-center text-2xl">
-              <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
-  )
+  );
 }
