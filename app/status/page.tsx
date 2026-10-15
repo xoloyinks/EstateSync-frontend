@@ -1,5 +1,7 @@
+
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import { FaCaretLeft, FaNairaSign } from "react-icons/fa6";
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
@@ -8,9 +10,10 @@ import { PropertyType, userType } from "../types";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function CheckStatus(){
+export default function CheckStatus() {
   const [input, setInput] = useState<string>("");
   const [code, setCode] = useState<string>("");
+
   const [statusData, setStatusData] = useState<{
     _id: string;
     user: userType;
@@ -20,97 +23,146 @@ export default function CheckStatus(){
     code: string;
     createdAt: Date;
   } | null>(null);
+
   const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [paymentGenerated, setPaymentGenerated] = useState(false);
+  const [hasGeneratedUrl, setHasGeneratedUrl] = useState(false);
 
-  console.log(paymentGenerated)
+  // Prevent concurrent subscription requests.
+  const paymentRequestInProgress = useRef(false);
 
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user") || "") : null;
+  // Track applications already processed by this component.
+  const processedApplicationRef = useRef<string | null>(null);
 
-  const { data, isLoading: loading, error: queryError } = useGetApplicationQuery(code, {
+  const user = Cookies.get("user")
+    ? JSON.parse(Cookies.get("user") || "")
+    : null;
+
+  const {
+    data,
+    isLoading: loading,
+    error: queryError,
+  } = useGetApplicationQuery(code, {
     skip: !code,
   });
 
   const [subscribe] = useSubscribeMutation();
 
-const [hasGeneratedUrl, setHasGeneratedUrl] = useState(false);
-console.log(data)
+  useEffect(() => {
+    if (!data || !user || paymentRequestInProgress.current) return;
 
-useEffect(() => {
-  const generatePaymentUrl = async () => {
-    if (!data || !user || hasGeneratedUrl) return;
+    const application = data.data;
 
-    const userIdFromData = data?.data?.user?.id;
-    const property = data?.data?.property;
+    if (!application) return;
 
-    if(data?.data?.payment === "paid") {
-      setStatusData(data.data);
-      setError("This application has already been paid for.");
-      toast.error("This application has already been paid for!", {
-        position: "top-center",
-        theme: "dark",
-      });
+    const applicationId = application._id || application.code;
+
+    if (
+      processedApplicationRef.current === applicationId ||
+      hasGeneratedUrl
+    ) {
       return;
     }
 
-    if (userIdFromData !== user.id) {
-      setStatusData(null);
-      setError("You are not authorized to view this application.");
-      toast.error("You are not authorized to view this application!", {
-        position: "top-center",
-        theme: "dark",
-      });
-      return;
-    }
+    const generatePaymentUrl = async () => {
+      if (paymentRequestInProgress.current) return;
 
-    try {
-      const subData = {
-        amount: Number(property?.price),
-        email: user.email,
-        planCode: property?.planCode,
-      };
+      // Set the lock synchronously before starting the request.
+      paymentRequestInProgress.current = true;
+      processedApplicationRef.current = applicationId;
 
-      const res = await subscribe(subData).unwrap();
-      if (res) {
-        setPaymentGenerated(true);
-        setPaymentUrl(res.data.authorization_url)
+      try {
+        const userIdFromData = application.user?.id;
+        const property = application.property;
+
+        if (application.payment === "paid") {
+          setStatusData(application);
+          setError("This application has already been paid for.");
+
+          toast.error("This application has already been paid for!", {
+            position: "top-center",
+            theme: "dark",
+          });
+
+          return;
+        }
+
+        if (userIdFromData !== user.id) {
+          setStatusData(null);
+          setError("You are not authorized to view this application.");
+
+          toast.error("You are not authorized to view this application!", {
+            position: "top-center",
+            theme: "dark",
+          });
+
+          return;
+        }
+
+        const subData = {
+          amount: Number(property?.price),
+          email: user.email,
+          planCode: property?.planCode,
+        };
+
+        const res = await subscribe(subData).unwrap();
+
+        if (res) {
+          setPaymentGenerated(true);
+          setPaymentUrl(res.data.authorization_url);
+        }
+
+        setError(null);
+        setStatusData(application);
+        setHasGeneratedUrl(true);
+      } catch (err) {
+        console.error("Subscription error:", err);
+
+        // Allow another attempt if subscription creation fails.
+        processedApplicationRef.current = null;
+
+        toast.error("Subscription failed. Please try again.", {
+          position: "top-center",
+          theme: "dark",
+        });
+      } finally {
+        paymentRequestInProgress.current = false;
       }
+    };
 
-      setError(null);
-      setStatusData(data.data);
-      setHasGeneratedUrl(true); 
-    } catch (err) {
-      console.error("Subscription error:", err);
-      toast.error("Subscription failed. Please try again.", {
+    void generatePaymentUrl();
+  }, [data, user, hasGeneratedUrl, subscribe]);
+
+  useEffect(() => {
+    if (queryError) {
+      setError(
+        "Failed to fetch application data. Please check the application ID."
+      );
+
+      toast.error("Failed to fetch application data!", {
         position: "top-center",
         theme: "dark",
       });
     }
-  };
-
-  if(!hasGeneratedUrl){
-    generatePaymentUrl();
-  }
-
-}, [data, user, hasGeneratedUrl]);
-
-useEffect(() => {
-  if(queryError) {
-    setError("Failed to fetch application data. Please check the application ID.");
-    toast.error("Failed to fetch application data!", {
-      position: "top-center",
-      theme: "dark",
-    });
-  }
-}, [queryError]);
+  }, [queryError]);
 
   const handleCheckStatus = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!input.trim()) {
       setError("Please enter an application ID or email.");
       return;
     }
+
+    // Reset request-specific state for a new search.
+    setError(null);
+    setStatusData(null);
+    setPaymentUrl(null);
+    setPaymentGenerated(false);
+    setHasGeneratedUrl(false);
+    processedApplicationRef.current = null;
+
     setCode(input.trim());
   };
 
@@ -151,7 +203,11 @@ useEffect(() => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-colors"
               />
             </div>
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+            {error && (
+              <p className="text-red-500 text-sm mb-4">{error}</p>
+            )}
+
             <button
               type="submit"
               disabled={loading}
@@ -168,6 +224,7 @@ useEffect(() => {
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Application Details
               </h2>
+
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="relative w-24 h-24 rounded-lg overflow-hidden">
@@ -177,17 +234,24 @@ useEffect(() => {
                       className="object-cover w-full h-full"
                     />
                   </div>
+
                   <div>
                     <p className="text-sm font-medium text-gray-700">
                       Property:{" "}
-                      <span className="font-semibold">{statusData.property.title}</span>
+                      <span className="font-semibold">
+                        {statusData.property.title}
+                      </span>
                     </p>
+
                     <p className="text-sm text-gray-600">
                       Application ID:{" "}
-                      <span className="font-semibold">{statusData.code}</span>
+                      <span className="font-semibold">
+                        {statusData.code}
+                      </span>
                     </p>
                   </div>
                 </div>
+
                 <div>
                   <p className="text-sm text-gray-600">
                     Status:{" "}
@@ -203,31 +267,41 @@ useEffect(() => {
                       {statusData.status.toUpperCase()}
                     </span>
                   </p>
-                  {statusData.status.toLowerCase() === "approved" && paymentUrl && (
-                    <p className="py-3 text-sm w-fit">
-                      <a
-                        href={paymentUrl}
-                        target="_blank"
-                        className="text-blue-500 font-bold hover:text-blue-600 flex items-center gap-1"
-                      >
-                        Proceed to Make payment of{" "}
-                        <FaNairaSign />{Number(statusData.property.price).toLocaleString()}
-                      </a>
-                    </p>
-                  )}
+
+                  {statusData.status.toLowerCase() === "approved" &&
+                    paymentUrl && (
+                      <p className="py-3 text-sm w-fit">
+                        <a
+                          href={paymentUrl}
+                          target="_blank"
+                          className="text-blue-500 font-bold hover:text-blue-600 flex items-center gap-1"
+                        >
+                          Proceed to Make payment of{" "}
+                          <FaNairaSign />
+                          {Number(
+                            statusData.property.price
+                          ).toLocaleString()}
+                        </a>
+                      </p>
+                    )}
+
                   <p className="text-sm text-gray-600">
                     Submitted:{" "}
                     <span className="font-semibold">
-                      {new Date(statusData.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
+                      {new Date(statusData.createdAt).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
                     </span>
                   </p>
                 </div>
+
                 <p className="text-sm text-gray-600">
                   {statusData.status === "approved"
                     ? "Your application has been approved! Please proceed to make payment."

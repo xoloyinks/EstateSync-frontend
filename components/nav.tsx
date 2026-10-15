@@ -71,7 +71,7 @@ export default function Nav() {
         </Link>
 
         <div className='sm:space-x-7 max-sm:text-sm space-x-3 font-semibold flex items-center not-sm:hidden'>
-            <Link href="/" className='hover:text-black/50'>Contact us</Link>
+            <Link href="#footer" className='hover:text-black/50'>Contact us</Link>
             {/* Handle Logout */}
             {active && <button onClick={handleSignout} className='hover:text-black/50 cursor-pointer'>Sign out</button>}
             {
@@ -102,7 +102,7 @@ export default function Nav() {
             }`}
           >
             <ul className="py-2">
-              <li className="px-4 py-2 hover:bg-gray-100 ">
+              <li  className="px-4 py-2 hover:bg-gray-100 ">
                 <a href="#footer" className="block text-gray-800 ">
                   Contact us
                 </a>

@@ -9,7 +9,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-neutral-950 text-white overflow-hidden">
+    <footer id="footer" className="relative bg-neutral-950 text-white overflow-hidden">
 
       {/* ambient glow */}
       <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-purple-600/20 blur-[160px] rounded-full" />
