@@ -1,4 +1,5 @@
 "use client"
+
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import {store} from "@/app/api/store";
