@@ -12,6 +12,7 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
+
 console.log = () => {};
 console.info = () => {};
 console.warn = () => {};
